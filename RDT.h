@@ -15,6 +15,9 @@
 #define RDT_H
 #include <QObject>
 #include <QAbstractTableModel>
+#include "AgaveCurl.h"
+#include "JobsListModel.h"
+
 class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -68,15 +71,20 @@ class RDT : public QObject
     Q_OBJECT
 
     Q_PROPERTY(Esri::ArcGISRuntime::MapQuickView* mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
-    Q_PROPERTY(Esri::ArcGISRuntime::MapQuickView* mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
     Q_PROPERTY(bool mapDrawing READ mapDrawing NOTIFY mapDrawStatusChanged)
+    Q_PROPERTY(JobsListModel* jobsList READ jobsList)
+
 
 public:
     explicit RDT(QObject* parent = nullptr);
     ~RDT() override;
     Q_INVOKABLE void addCSVLayer(QString filePath);
     Q_INVOKABLE void refresh();
-
+    Q_INVOKABLE bool isLoggedIn();
+    Q_INVOKABLE void login(QString username, QString password);
+    Q_INVOKABLE void refreshJobs();
+    Q_INVOKABLE QString getJob(int index);
+    Q_INVOKABLE void loadResults(QString path);
 
 signals:
     void mapViewChanged();
@@ -88,10 +96,14 @@ private:
 
     Esri::ArcGISRuntime::Map* m_map = nullptr;
     Esri::ArcGISRuntime::MapQuickView* m_mapView = nullptr;
+    JobsListModel* m_jobsList = nullptr;
 
     void setupConnections();
     bool m_mapDrawing = false;
     bool mapDrawing() const;
+    AgaveCurl* client;
+    JobsListModel* jobsList();
+    QString m_resultsPath;
 };
 
 #endif // RDT_H

@@ -22,7 +22,8 @@
 #include "SimpleMarkerSymbol.h"
 #include "SimpleRenderer.h"
 #include "ClassBreaksRenderer.h"
-
+#include "QJsonDocument"
+#include "QDir"
 #include <QUrl>
 
 using namespace Esri::ArcGISRuntime;
@@ -34,6 +35,12 @@ RDT::RDT(QObject* parent /* = nullptr */):
     QObject(parent),
     m_map(new Map(Basemap::topographic(this), this))
 {
+    QString tenant("https://agave.designsafe-ci.org");
+    QString storage("designsafe.storage.default");
+
+    client = new AgaveCurl(tenant, storage);
+    m_jobsList = new JobsListModel();
+
     setupConnections();
 }
 
@@ -110,6 +117,34 @@ void RDT::refresh()
     m_map->load();
 }
 
+bool RDT::isLoggedIn()
+{
+    return client->isLoggedIn();
+}
+
+void RDT::login(QString username, QString password)
+{
+    client->login(username, password);
+}
+
+void RDT::refreshJobs()
+{
+    auto jobs = client->getJobList("");
+    m_jobsList->setJobs(jobs);
+}
+
+QString RDT::getJob(int index)
+{
+    auto jobId = m_jobsList->getJobId(index);
+    QJsonDocument jobDetails(client->getJobDetails(jobId));
+    return jobDetails.toJson(QJsonDocument::Compact);
+}
+
+void RDT::loadResults(QString path)
+{
+    client->remoteLSCall(path);
+}
+
 MapQuickView* RDT::mapView() const
 {
     return m_mapView;
@@ -144,9 +179,45 @@ void RDT::setupConnections()
 //    connect(m_mapView, &MapQuickView::dr, this, [this](QDropEvent* dropEvent){
 //        qDebug() << dropEvent->mimeData();
     //    });
+
+    connect(client, &AgaveCurl::remoteLSReturn, this, [this](QJsonArray remoteFiles){
+        for (auto file: remoteFiles)
+        {
+            auto fileName =  file.toObject()["name"].toString();
+            if(0 == fileName.compare("RegionalDamageLoss.csv"))
+            {
+                auto path = file.toObject()["path"].toString();
+                QStringList remoteFiles;
+                remoteFiles << path;
+
+                QStringList localFiles;
+                m_resultsPath = QDir::tempPath() + path;
+                localFiles << m_resultsPath;
+
+                QDir(m_resultsPath.left(m_resultsPath.lastIndexOf('/'))).mkpath(".");
+
+                client->downloadFilesCall(remoteFiles, localFiles, this);
+
+            }
+        }
+    });
+
+    connect(client, &AgaveCurl::downloadFilesReturn, this, [this](bool result, QObject* sender){
+        Q_UNUSED(result)
+        if(sender == this)
+        {
+            this->addCSVLayer(m_resultsPath);
+        }
+
+    });
 }
 
 bool RDT::mapDrawing() const
 {
     return m_mapDrawing;
+}
+
+JobsListModel *RDT::jobsList()
+{
+    return m_jobsList;
 }

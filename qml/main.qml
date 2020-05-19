@@ -25,11 +25,5 @@ ApplicationWindow {
         RDTForm {
             anchors.fill: parent
         }
-
-        //LayersTable {
-
-        //}
-    }
-    Drawer{
     }
 }

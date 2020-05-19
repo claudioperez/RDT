@@ -15,8 +15,12 @@ TEMPLATE = app
 
 CONFIG += c++14
 
+include($$PWD/ConanHelper.pri)
+
 # additional modules are pulled in via arcgisruntime.pri
 QT += opengl qml quick
+
+win32:LIBS += Advapi32.lib
 
 TARGET = RDT
 
@@ -35,10 +39,12 @@ include($$PWD/arcgisruntime.pri)
 HEADERS += \
     AppInfo.h \
     CsvLayer.h \
+    JobsListModel.h \
     RDT.h
 
 SOURCES += \
     CsvLayer.cpp \
+    JobsListModel.cpp \
     main.cpp \
     RDT.cpp
 
@@ -46,6 +52,7 @@ RESOURCES += \
     qml/qml.qrc \
     Resources/Resources.qrc
 
+OTHER_FILES += conanfile.py
 #-------------------------------------------------------------------------------
 
 win32 {

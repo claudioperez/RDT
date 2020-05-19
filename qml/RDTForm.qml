@@ -34,18 +34,46 @@ Item {
         title: "Please select a layer to add to map"
         nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
         onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
             model.addCSVLayer(fileDialog.fileUrl)
         }
 
     }
 
+    Rectangle{
+        anchors{
+            top: parent.top
+            right: parent.right
+            rightMargin: 10
+            topMargin: 10
+        }
 
+        border
+        {
+            color: "darkblue"
+            width: 2
+        }
+        color: "#00000000"
+        width: 50
+        height: 50
+        radius: 10
+
+        MouseArea
+        {
+            onClicked: console.log("click")
+        }
+
+        Image {
+            id: lockIcon
+            source: "qrc:///Resources/Locked.png"
+            scale: 0.1
+        }
+    }
 
     MenuBar {
         opacity: 0.75
         background: Rectangle {color: "light blue"}
             Menu {
+
                 title: "&File"
                 MenuItem { text: "&Open" }
                 MenuItem { text: "&Save" }
@@ -54,6 +82,7 @@ Item {
                     text: "E&xit"
                     onClicked: Qt.quit()
                 }
+
                 background: Rectangle {
                     implicitWidth: 200
                     color: "light blue"
@@ -116,6 +145,32 @@ Item {
             }
 
             Menu {
+                title: "&Analysis"
+                MenuItem {
+                    text: "&Login"
+                    onClicked: loginForm.open()
+                }
+
+                MenuItem {
+                    text: "&Jobs"
+                    onClicked: {
+                        model.refreshJobs()
+                        jobsForm.open()
+                        jobsForm.model = model.jobsList
+                    }
+                }
+
+
+                background: Rectangle {
+                    implicitWidth: 200
+                    color: "light blue"
+                    opacity: 0.5
+                    border.color: "dark blue"
+                }
+
+            }
+
+            Menu {
                 title: "&Help"
                 MenuItem {text: "A&bout"}
                 background: Rectangle {
@@ -135,6 +190,17 @@ Item {
         id: model
         mapView: view
     }
+
+    LoginForm{
+        id: loginForm
+        onAccepted: model.login(loginForm.username, loginForm.password)
+    }
+
+    JobsForm{
+        id: jobsForm
+        rdt: model
+    }
+
     // dim window if map is drawing
     Rectangle {
         anchors.fill: parent

@@ -1,7 +1,9 @@
 <RCC>
     <qresource prefix="/qml">
         <file>main.qml</file>
-		<file>RDTForm.qml</file>
-		<file>LayersTable.qml</file>
+        <file>RDTForm.qml</file>
+        <file>LayersTable.qml</file>
+        <file>LoginForm.qml</file>
+        <file>JobsForm.qml</file>
     </qresource>
 </RCC>

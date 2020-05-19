@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/Resources">
         <file>AppIcon.png</file>
+        <file>Locked.png</file>
+        <file>Unlocked.png</file>
     </qresource>
 </RCC>
