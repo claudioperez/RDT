@@ -3,7 +3,7 @@ import QtQuick.Controls 1.4 as QC1
 import QtQuick.Controls 2.12 as QC2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
-import Esri.RDT 1.0
+import SimCenter.RDT 1.0
 
 QC2.Dialog {
     standardButtons: QC2.DialogButtonBox.Ok | QC2.DialogButtonBox.Cancel
@@ -19,20 +19,13 @@ QC2.Dialog {
 
         QC1.TableView{
             id: jobslistView
-            Layout.fillHeight: true
+
             Layout.maximumHeight: 480
             Layout.preferredHeight: 400
             Layout.preferredWidth: 800
             Layout.maximumWidth: 1280
 
-            //anchors.fill: parent
-    //        columnSpacing: 2
-    //        rowSpacing: 2
-            clip: true
-            width: parent.width
-            height: parent.height
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+
             onDoubleClicked:
             {
                 var jobDetails = rdt.getJob(currentRow)
@@ -44,6 +37,27 @@ QC2.Dialog {
                 endedLabel.text = jobJson["ended"]
                 submittedLabel.text = jobJson["created"]
                 outputLabel.text = jobJson["archivePath"]
+                nodesLabel.text = jobJson["nodeCount"]
+                buildingsLabel.text = jobJson["parameters"]["buildingsCount"]
+                var configFile = jobJson["inputs"]["configFile"]
+                if (typeof configFile === 'string' || configFile instanceof String)
+                    configLabel.text = configFile
+                else
+                    configLabel.text = configFile[0]
+
+                var dataFiles = jobJson["inputs"]["dataFiles"]
+                input1.text = dataFiles[0]
+                if(dataFiles.length > 1)
+                {
+                    input2.text = dataFiles[1]
+                    input2.visible = true
+                }
+                else
+                {
+                    input2.text = ""
+                    input2.visible = false
+                }
+
 
             }
 
@@ -141,6 +155,8 @@ QC2.Dialog {
             id: jobDetails
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.maximumWidth: parent.width*0.4
+
             //title: "Job Details"
 
             GridLayout{
@@ -201,7 +217,59 @@ QC2.Dialog {
                     font.pointSize: 10
                 }
 
-                QC2.Label{id:outputLabel}
+                Text{
+                    id:outputLabel
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: 350
+                }
+
+                QC2.Label{
+                    text: "Buildings:"
+                    font.bold: true
+                    font.pointSize: 10
+                }
+
+                QC2.Label{id:buildingsLabel}
+
+                QC2.Label{
+                    text: "Nodes:"
+                    font.bold: true
+                    font.pointSize: 10
+                }
+
+                QC2.Label{id:nodesLabel}
+
+                QC2.Label{
+                    text: "Config:"
+                    font.bold: true
+                    font.pointSize: 10
+                }
+
+                Text{
+                    id: configLabel
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: 350
+                }
+
+                QC2.Label{
+                    text: "Inputs:"
+                    font.bold: true
+                    font.pointSize: 10
+                }
+
+                ColumnLayout{
+                    Text{
+                        id: input1
+                        wrapMode: Text.Wrap
+                        Layout.maximumWidth: 350
+                    }
+
+                    Text{
+                        id: input2
+                        wrapMode: Text.Wrap
+                        Layout.maximumWidth: 350
+                    }
+                }
 
 
                 QC2.Button

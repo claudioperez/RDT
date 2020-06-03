@@ -73,6 +73,7 @@ class RDT : public QObject
     Q_PROPERTY(Esri::ArcGISRuntime::MapQuickView* mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
     Q_PROPERTY(bool mapDrawing READ mapDrawing NOTIFY mapDrawStatusChanged)
     Q_PROPERTY(JobsListModel* jobsList READ jobsList)
+    Q_PROPERTY(QStringList inputs MEMBER m_inputs NOTIFY inputsChanged)
 
 
 public:
@@ -85,10 +86,13 @@ public:
     Q_INVOKABLE void refreshJobs();
     Q_INVOKABLE QString getJob(int index);
     Q_INVOKABLE void loadResults(QString path);
+    Q_INVOKABLE void submitJob(QString job);
 
 signals:
     void mapViewChanged();
     void mapDrawStatusChanged();
+    void inputsChanged();
+
 
 private:
     Esri::ArcGISRuntime::MapQuickView* mapView() const;
@@ -104,6 +108,7 @@ private:
     AgaveCurl* client;
     JobsListModel* jobsList();
     QString m_resultsPath;
+    QStringList m_inputs;
 };
 
 #endif // RDT_H
