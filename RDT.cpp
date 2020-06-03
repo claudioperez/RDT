@@ -40,6 +40,8 @@ RDT::RDT(QObject* parent /* = nullptr */):
 
     client = new AgaveCurl(tenant, storage);
     m_jobsList = new JobsListModel();
+    m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageBuildings.zip";
+    m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageM7GMs.zip";
 
     setupConnections();
 }
@@ -124,13 +126,13 @@ bool RDT::isLoggedIn()
 
 void RDT::login(QString username, QString password)
 {
-    client->login(username, password);
+    client->loginCall(username, password);
 }
 
 void RDT::refreshJobs()
 {
-    auto jobs = client->getJobList("");
-    m_jobsList->setJobs(jobs);
+    if(client->isLoggedIn())
+        client->getJobListCall("", "rWHALE-1*");
 }
 
 QString RDT::getJob(int index)
@@ -143,6 +145,13 @@ QString RDT::getJob(int index)
 void RDT::loadResults(QString path)
 {
     client->remoteLSCall(path);
+}
+
+void RDT::submitJob(QString job)
+{
+    qDebug() << job;
+    auto jobDoc = QJsonDocument::fromJson(job.toUtf8());
+    client->startJobCall(jobDoc.object());
 }
 
 MapQuickView* RDT::mapView() const
@@ -209,6 +218,14 @@ void RDT::setupConnections()
             this->addCSVLayer(m_resultsPath);
         }
 
+    });
+
+    connect(client, &AgaveCurl::getJobListReturn, this, [this](QJsonObject jobs){
+        m_jobsList->setJobs(jobs);
+    });
+
+    connect(client, &AgaveCurl::startJobReturn, this, [this](QString jobreturn){
+        qDebug() << jobreturn;
     });
 }
 

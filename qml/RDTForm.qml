@@ -12,13 +12,14 @@
 //
 
 import QtQuick 2.6
-import QtQuick.Controls 2.3
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.3
 import QtGraphicalEffects 1.0
-import Esri.RDT 1.0
+import SimCenter.RDT 1.0
 
 Item {
+    property alias model: model
 
     // Create MapQuickView here, and create its Map etc. in C++ code
     MapView {
@@ -28,178 +29,45 @@ Item {
         focus: true
     }
 
-    FileDialog {
-        id: fileDialog
-        folder: "file:///C:/SandBox/Anchorage/GIS/"
-        title: "Please select a layer to add to map"
-        nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
-        onAccepted: {
-            model.addCSVLayer(fileDialog.fileUrl)
-        }
-
-    }
-
-    Rectangle{
-        anchors{
-            top: parent.top
-            right: parent.right
-            rightMargin: 10
-            topMargin: 10
-        }
-
-        border
-        {
-            color: "darkblue"
-            width: 2
-        }
-        color: "#00000000"
-        width: 50
-        height: 50
-        radius: 10
-
-        MouseArea
-        {
-            onClicked: console.log("click")
-        }
-
-        Image {
-            id: lockIcon
-            source: "qrc:///Resources/Locked.png"
-            scale: 0.1
-        }
-    }
-
-    MenuBar {
-        opacity: 0.75
-        background: Rectangle {color: "light blue"}
-            Menu {
-
-                title: "&File"
-                MenuItem { text: "&Open" }
-                MenuItem { text: "&Save" }
-                MenuItem { text: "Save &as" }
-                MenuItem {
-                    text: "E&xit"
-                    onClicked: Qt.quit()
-                }
-
-                background: Rectangle {
-                    implicitWidth: 200
-                    color: "light blue"
-                    opacity: 0.5
-                    border.color: "dark blue"
-                }
-            }
-
-            Menu {
-                title: "&Edit"
-                MenuItem { text: "&Copy" }
-                MenuItem { text: "&Paste" }
-                background: Rectangle {
-                    implicitWidth: 200
-                    color: "light blue"
-                    opacity: 0.5
-                    border.color: "dark blue"
-                }
-
-                MenuSeparator{
-                    contentItem: Rectangle {
-                        implicitWidth: 200
-                        implicitHeight: 2
-                        color: "dark blue"
-                        opacity: 0.25
-                    }
-                }
-
-                MenuItem {
-                    text: "&Refresh"
-                    onClicked: model.refresh()
-                }
-
-            }
-
-            Menu {
-                title: "&Layers"
-
-                Menu {
-                    title: "&Add"
-                    MenuItem {
-                        text: "CS&V"
-                        onClicked: fileDialog.open()
-                    }
-                    background: Rectangle {
-                        implicitWidth: 200
-                        color: "light blue"
-                        opacity: 0.5
-                        border.color: "dark blue"
-                    }
-                }
-
-                background: Rectangle {
-                    implicitWidth: 200
-                    color: "light blue"
-                    opacity: 0.5
-                    border.color: "dark blue"
-                }
-
-            }
-
-            Menu {
-                title: "&Analysis"
-                MenuItem {
-                    text: "&Login"
-                    onClicked: loginForm.open()
-                }
-
-                MenuItem {
-                    text: "&Jobs"
-                    onClicked: {
-                        model.refreshJobs()
-                        jobsForm.open()
-                        jobsForm.model = model.jobsList
-                    }
-                }
 
 
-                background: Rectangle {
-                    implicitWidth: 200
-                    color: "light blue"
-                    opacity: 0.5
-                    border.color: "dark blue"
-                }
+//    Rectangle{
+//        anchors{
+//            top: parent.top
+//            right: parent.right
+//            rightMargin: 10
+//            topMargin: 10
+//        }
 
-            }
+//        border
+//        {
+//            color: "darkblue"
+//            width: 2
+//        }
+//        color: "#00000000"
+//        width: 50
+//        height: 50
+//        radius: 10
 
-            Menu {
-                title: "&Help"
-                MenuItem {text: "A&bout"}
-                background: Rectangle {
-                    implicitWidth: 200
-                    color: "light blue"
-                    opacity: 0.5
-                    border.color: "dark blue"
-                }
-            }
+//        MouseArea
+//        {
+//            onClicked: console.log("click")
+//        }
 
+//        Image {
+//            id: lockIcon
+//            source: "qrc:///Resources/Locked.png"
+//            scale: 0.1
+//        }
+//    }
 
-    // Declare the C++ instance which creates the map etc. and supply the view
-
-}
 
     RDT {
         id: model
         mapView: view
     }
 
-    LoginForm{
-        id: loginForm
-        onAccepted: model.login(loginForm.username, loginForm.password)
-    }
 
-    JobsForm{
-        id: jobsForm
-        rdt: model
-    }
 
     // dim window if map is drawing
     Rectangle {

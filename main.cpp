@@ -74,10 +74,10 @@ int main(int argc, char *argv[])
     //  }
 
     // Register the map view for QML
-    qmlRegisterType<MapQuickView>("Esri.RDT", 1, 0, "MapView");
+    qmlRegisterType<MapQuickView>("SimCenter.RDT", 1, 0, "MapView");
 
     // Register the RDT (QQuickItem) for QML
-    qmlRegisterType<RDT>("Esri.RDT", 1, 0, "RDT");
+    qmlRegisterType<RDT>("SimCenter.RDT", 1, 0, "RDT");
     qmlRegisterType<TableModel>("TableModel", 0, 1, "TableModel");
 
     // Initialize application view
