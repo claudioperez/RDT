@@ -111,6 +111,10 @@ void RDT::addCSVLayer(QString filePath)
 
     featureCollection->tables()->append(featureCollectionTable);
     auto csvLayer = new FeatureCollectionLayer(featureCollection);
+    QFileInfo fileInfo(filePath);
+    csvLayer->setName(fileInfo.fileName());
+    csvLayer->setDescription("Imported layer");
+
     m_map->operationalLayers()->append(csvLayer);
 }
 
@@ -237,4 +241,10 @@ bool RDT::mapDrawing() const
 JobsListModel *RDT::jobsList()
 {
     return m_jobsList;
+}
+
+LayerListModel *RDT::getLayers()
+{
+    auto layers = m_map->operationalLayers();
+    return m_map->operationalLayers();
 }

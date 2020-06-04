@@ -58,6 +58,13 @@ ApplicationWindow {
                         onTriggered: fileDialog.open()
                     }
                 }
+                MenuItem{
+                    text: "&Manage"
+                    onTriggered: {
+                        layersForm.open()
+                        layersForm.model = rdt.model.layers
+                    }
+                }
             }
             Menu {
                 title: "&Analysis"
@@ -113,13 +120,18 @@ ApplicationWindow {
         rdt: rdt.model
     }
 
+    LayersTable{
+        id: layersForm
+        rdt: rdt.model
+    }
+
     FileDialog {
         id: fileDialog
         folder: "file:///C:/SandBox/Anchorage/GIS/"
         title: "Please select a layer to add to map"
         nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
         onAccepted: {
-            model.addCSVLayer(fileDialog.fileUrl)
+            rdt.model.addCSVLayer(fileDialog.fileUrl)
         }
 
     }

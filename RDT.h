@@ -17,6 +17,7 @@
 #include <QAbstractTableModel>
 #include "AgaveCurl.h"
 #include "JobsListModel.h"
+#include "LayerListModel.h"
 
 class TableModel : public QAbstractTableModel
 {
@@ -74,6 +75,7 @@ class RDT : public QObject
     Q_PROPERTY(bool mapDrawing READ mapDrawing NOTIFY mapDrawStatusChanged)
     Q_PROPERTY(JobsListModel* jobsList READ jobsList)
     Q_PROPERTY(QStringList inputs MEMBER m_inputs NOTIFY inputsChanged)
+    Q_PROPERTY(Esri::ArcGISRuntime::LayerListModel* layers READ getLayers NOTIFY layersChanged)
 
 
 public:
@@ -92,6 +94,7 @@ signals:
     void mapViewChanged();
     void mapDrawStatusChanged();
     void inputsChanged();
+    void layersChanged();
 
 
 private:
@@ -109,6 +112,8 @@ private:
     JobsListModel* jobsList();
     QString m_resultsPath;
     QStringList m_inputs;
+
+    Esri::ArcGISRuntime::LayerListModel* getLayers();
 };
 
 #endif // RDT_H
