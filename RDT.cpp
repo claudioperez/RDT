@@ -25,6 +25,7 @@
 #include "QJsonDocument"
 #include "QDir"
 #include <QUrl>
+#include <QThread>
 
 using namespace Esri::ArcGISRuntime;
 
@@ -39,7 +40,15 @@ RDT::RDT(QObject* parent /* = nullptr */):
     QString storage("designsafe.storage.default");
 
     client = new AgaveCurl(tenant, storage);
+    QThread* agaveThread = new QThread();
+    agaveThread->setObjectName("AgaveThread");
+    client->moveToThread(agaveThread);
+    connect(agaveThread, &QThread::finished, client, &QObject::deleteLater);
+    connect(agaveThread, &QThread::finished, agaveThread, &QObject::deleteLater);
+    agaveThread->start();
+
     m_jobsList = new JobsListModel();
+    m_jobDetails = new JobDetailsModel();
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageBuildings.zip";
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageM7GMs.zip";
 
@@ -111,6 +120,10 @@ void RDT::addCSVLayer(QString filePath)
 
     featureCollection->tables()->append(featureCollectionTable);
     auto csvLayer = new FeatureCollectionLayer(featureCollection);
+    QFileInfo fileInfo(filePath);
+    csvLayer->setName(fileInfo.fileName());
+    csvLayer->setDescription("Imported layer");
+
     m_map->operationalLayers()->append(csvLayer);
 }
 
@@ -139,6 +152,8 @@ QString RDT::getJob(int index)
 {
     auto jobId = m_jobsList->getJobId(index);
     QJsonDocument jobDetails(client->getJobDetails(jobId));
+    m_jobDetails->setJob(jobDetails.object());
+
     return jobDetails.toJson(QJsonDocument::Compact);
 }
 
@@ -237,4 +252,15 @@ bool RDT::mapDrawing() const
 JobsListModel *RDT::jobsList()
 {
     return m_jobsList;
+}
+
+JobDetailsModel *RDT::jobDetails()
+{
+    return m_jobDetails;
+}
+
+LayerListModel *RDT::getLayers()
+{
+    auto layers = m_map->operationalLayers();
+    return m_map->operationalLayers();
 }

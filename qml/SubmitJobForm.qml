@@ -186,7 +186,7 @@ Dialog {
                     Layout.preferredHeight: 55
 
                     model: rdt.inputs
-                    spacing: 30
+                    spacing: 5
                     delegate: TextField {
                         objectName: "text"
                             width: configText.width
