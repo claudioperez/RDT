@@ -38,12 +38,12 @@ include($$PWD/arcgisruntime.pri)
 
 HEADERS += \
     AppInfo.h \
-    CsvLayer.h \
+    JobDetailsModel.h \
     JobsListModel.h \
     RDT.h
 
 SOURCES += \
-    CsvLayer.cpp \
+    JobDetailsModel.cpp \
     JobsListModel.cpp \
     main.cpp \
     RDT.cpp

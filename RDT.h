@@ -18,6 +18,7 @@
 #include "AgaveCurl.h"
 #include "JobsListModel.h"
 #include "LayerListModel.h"
+#include "JobDetailsModel.h"
 
 class TableModel : public QAbstractTableModel
 {
@@ -76,6 +77,7 @@ class RDT : public QObject
     Q_PROPERTY(JobsListModel* jobsList READ jobsList)
     Q_PROPERTY(QStringList inputs MEMBER m_inputs NOTIFY inputsChanged)
     Q_PROPERTY(Esri::ArcGISRuntime::LayerListModel* layers READ getLayers NOTIFY layersChanged)
+    Q_PROPERTY(JobDetailsModel* jobDetails READ jobDetails)
 
 
 public:
@@ -98,20 +100,22 @@ signals:
 
 
 private:
-    Esri::ArcGISRuntime::MapQuickView* mapView() const;
     void setMapView(Esri::ArcGISRuntime::MapQuickView* mapView);
 
     Esri::ArcGISRuntime::Map* m_map = nullptr;
     Esri::ArcGISRuntime::MapQuickView* m_mapView = nullptr;
     JobsListModel* m_jobsList = nullptr;
-
-    void setupConnections();
     bool m_mapDrawing = false;
-    bool mapDrawing() const;
     AgaveCurl* client;
-    JobsListModel* jobsList();
     QString m_resultsPath;
     QStringList m_inputs;
+    JobDetailsModel* m_jobDetails;
+
+    Esri::ArcGISRuntime::MapQuickView* mapView() const;
+    JobsListModel* jobsList();
+    bool mapDrawing() const;
+    void setupConnections();
+    JobDetailsModel* jobDetails();
 
     Esri::ArcGISRuntime::LayerListModel* getLayers();
 };

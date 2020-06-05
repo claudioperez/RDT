@@ -48,6 +48,7 @@ RDT::RDT(QObject* parent /* = nullptr */):
     agaveThread->start();
 
     m_jobsList = new JobsListModel();
+    m_jobDetails = new JobDetailsModel();
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageBuildings.zip";
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageM7GMs.zip";
 
@@ -151,6 +152,8 @@ QString RDT::getJob(int index)
 {
     auto jobId = m_jobsList->getJobId(index);
     QJsonDocument jobDetails(client->getJobDetails(jobId));
+    m_jobDetails->setJob(jobDetails.object());
+
     return jobDetails.toJson(QJsonDocument::Compact);
 }
 
@@ -249,6 +252,11 @@ bool RDT::mapDrawing() const
 JobsListModel *RDT::jobsList()
 {
     return m_jobsList;
+}
+
+JobDetailsModel *RDT::jobDetails()
+{
+    return m_jobDetails;
 }
 
 LayerListModel *RDT::getLayers()
