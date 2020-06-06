@@ -44,10 +44,22 @@ Dialog {
 
             TableViewColumn
             {
-                title: "Status"
+                title: "Status"                
                 role: "Status"
                 movable: false
                 width: 60
+            }
+
+            TableViewColumn
+            {
+                title: "Date"
+                movable: false
+                width: 80
+                delegate: Text {
+                    text: model.Created.substring(0, 10)
+                    horizontalAlignment : Text.AlignHCenter
+
+                }
             }
 
             TableViewColumn
@@ -56,17 +68,6 @@ Dialog {
                 role: "Id"
                 movable: false
                 width: 250
-            }
-
-
-            TableViewColumn
-            {
-                title: "Date"
-                movable: false
-                width: 100
-                delegate: Text {
-                    text: model.Created.substring(0, 10)
-                }
             }
         }
 
@@ -82,7 +83,8 @@ Dialog {
             {
                 title: "Name"
                 role: "Name"
-                width: 100
+                width: 120
+
             }
 
             TableViewColumn

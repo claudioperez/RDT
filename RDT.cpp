@@ -154,6 +154,8 @@ QString RDT::getJob(int index)
     QJsonDocument jobDetails(client->getJobDetails(jobId));
     m_jobDetails->setJob(jobDetails.object());
 
+    client->remoteLSCall(jobDetails.object()["archivePath"].toString());
+
     return jobDetails.toJson(QJsonDocument::Compact);
 }
 
@@ -164,7 +166,6 @@ void RDT::loadResults(QString path)
 
 void RDT::submitJob(QString job)
 {
-    qDebug() << job;
     auto jobDoc = QJsonDocument::fromJson(job.toUtf8());
     client->startJobCall(jobDoc.object());
 }
@@ -205,25 +206,27 @@ void RDT::setupConnections()
     //    });
 
     connect(client, &AgaveCurl::remoteLSReturn, this, [this](QJsonArray remoteFiles){
-        for (auto file: remoteFiles)
-        {
-            auto fileName =  file.toObject()["name"].toString();
-            if(0 == fileName.compare("RegionalDamageLoss.csv"))
-            {
-                auto path = file.toObject()["path"].toString();
-                QStringList remoteFiles;
-                remoteFiles << path;
+        m_jobDetails->setOutputs(remoteFiles);
 
-                QStringList localFiles;
-                m_resultsPath = QDir::tempPath() + path;
-                localFiles << m_resultsPath;
+//        for (auto file: remoteFiles)
+//        {
+//            auto fileName =  file.toObject()["name"].toString();
+//            if(0 == fileName.compare("RegionalDamageLoss.csv"))
+//            {
+//                auto path = file.toObject()["path"].toString();
+//                QStringList remoteFiles;
+//                remoteFiles << path;
 
-                QDir(m_resultsPath.left(m_resultsPath.lastIndexOf('/'))).mkpath(".");
+//                QStringList localFiles;
+//                m_resultsPath = QDir::tempPath() + path;
+//                localFiles << m_resultsPath;
 
-                client->downloadFilesCall(remoteFiles, localFiles, this);
+//                QDir(m_resultsPath.left(m_resultsPath.lastIndexOf('/'))).mkpath(".");
 
-            }
-        }
+//                client->downloadFilesCall(remoteFiles, localFiles, this);
+
+//            }
+//        }
     });
 
     connect(client, &AgaveCurl::downloadFilesReturn, this, [this](bool result, QObject* sender){
@@ -239,7 +242,7 @@ void RDT::setupConnections()
         m_jobsList->setJobs(jobs);
     });
 
-    connect(client, &AgaveCurl::startJobReturn, this, [this](QString jobreturn){
+    connect(client, &AgaveCurl::startJobReturn, this, [](QString jobreturn){
         qDebug() << jobreturn;
     });
 }
@@ -261,6 +264,5 @@ JobDetailsModel *RDT::jobDetails()
 
 LayerListModel *RDT::getLayers()
 {
-    auto layers = m_map->operationalLayers();
     return m_map->operationalLayers();
 }
