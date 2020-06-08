@@ -11,14 +11,23 @@ QModelIndex JobDetailsModel::index(int row, int column, const QModelIndex &paren
 {
     if (!parent.isValid())
         return createIndex(row, column, nullptr);
-    else
+    else if(parent.row() == 10)
+        return createIndex(row, column, (void*)&m_jobDetails);
+    else if(parent.row() == 11)
         return createIndex(row, column, (void*)&m_outputs);
+
+    return createIndex(row, column, nullptr);
 }
 
 QModelIndex JobDetailsModel::parent(const QModelIndex &child) const
 {
-    if(child.isValid() && child.internalPointer() == &m_outputs)
-        return index(10, 0, QModelIndex());
+    if(child.isValid())
+    {
+        if(child.internalPointer() == &m_jobDetails)
+            return index(10, 0, QModelIndex());
+        else if(child.internalPointer() == &m_outputs)
+            return index(11, 0, QModelIndex());
+    }
 
     return QModelIndex();
 }
@@ -26,20 +35,18 @@ QModelIndex JobDetailsModel::parent(const QModelIndex &child) const
 int JobDetailsModel::rowCount(const QModelIndex &parent) const
 {
     if(!parent.isValid())
-        return 11;
-
-    if(parent.row() == 10)
-        return m_outputs.isEmpty()?0:m_outputs["result"].toArray().size();
+        return 12;
+    else if(parent.row() == 10 && !m_jobDetails.isEmpty())
+        return m_jobDetails["inputs"]["dataFiles"].toArray().size();
+    else if(parent.row() == 11)
+        return m_outputs.size();
 
     return 0;
 }
 
 int JobDetailsModel::columnCount(const QModelIndex &parent) const
 {
-    if(!parent.isValid())
-        return 1;
-
-    if(parent.row() == 10)
+    if(!parent.isValid() || parent.row() == 10 || parent.row() == 11)
         return 1;
 
     return 0;
@@ -53,13 +60,26 @@ QVariant JobDetailsModel::data(const QModelIndex &index, int role) const
     if (role == JobDetailRoles::Name)
     {
         if(index.parent() != QModelIndex())
-            return "outputFile";
+        {
+            if(index.internalPointer() == &m_jobDetails)
+                return QString::number(index.row());
+            else if(index.internalPointer() == &m_outputs)
+                return getOutputType(m_outputs[index.row()]["name"].toString());
+
+        }
         return getName(index);
     }
     else if(role == JobDetailRoles::Value)
     {
         if(index.parent() != QModelIndex())
-            return "outputName";
+        {
+            if(index.internalPointer() == &m_jobDetails)
+                return m_jobDetails["inputs"]["dataFiles"][index.row()];
+            else if(index.internalPointer() == &m_outputs)
+                return m_outputs[index.row()]["name"];
+
+        }
+
         return getValue(index);
     }
     return QVariant();
@@ -70,6 +90,24 @@ void JobDetailsModel::setJob(QJsonObject jobDetails)
     beginResetModel();
     m_jobDetails = jobDetails;
     endResetModel();
+}
+
+void JobDetailsModel::setOutputs(QJsonArray outputs)
+{
+    if (outputs.size() == 0)
+        return;
+
+    if (0 == outputs[0].toObject()["name"].toString().compare("."))
+        outputs.removeAt(0);
+
+    beginResetModel();
+    m_outputs = outputs;
+    endResetModel();
+}
+
+QJsonArray JobDetailsModel::getOutputs()
+{
+    return m_outputs;
 }
 
 
@@ -139,4 +177,22 @@ QVariant JobDetailsModel::getValue(QModelIndex index) const
     }
 
     return QVariant();
+}
+
+QVariant JobDetailsModel::getOutputType(QString filename) const
+{
+    if(0 == filename.compare("RegionalDamageLoss.csv"))
+        return "Results";
+    else if(0 == filename.compare("logs.zip"))
+        return "Simulation Logs";
+    else if(filename.endsWith(".out"))
+        return "Output File";
+    else if(filename.endsWith(".err"))
+        return "Error File";
+    else if(0 == filename.compare(".agave.log"))
+        return "Agave Log";
+    else if(filename.contains("WorkflowTasks"))
+        return "Simulation Tasks";
+    else
+        return QVariant();
 }

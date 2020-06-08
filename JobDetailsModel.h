@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QJsonObject>
+#include <QJsonArray>
 
 class JobDetailsModel : public QAbstractItemModel
 {
@@ -29,14 +30,16 @@ public:
 
 private:
     QJsonObject m_jobDetails;
-    QJsonObject m_outputs;
+    QJsonArray m_outputs;
 
     QVariant getName(QModelIndex index) const;
     QVariant getValue(QModelIndex index) const;
-
+    QVariant getOutputType(QString filename) const;
 
 public:
     void setJob(QJsonObject jobDetails);
+    void setOutputs(QJsonArray jobDetails);
+    QJsonArray getOutputs();
 
 };
 

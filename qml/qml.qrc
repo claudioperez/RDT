@@ -6,5 +6,6 @@
         <file>LoginForm.qml</file>
         <file>JobsForm.qml</file>
         <file>SubmitJobForm.qml</file>
+        <file>TextViewer.qml</file>
     </qresource>
 </RCC>

@@ -16,70 +16,70 @@ Dialog {
     RowLayout{
         anchors.fill: parent
 
-    TableView
-    {
-        id: layerslistView
-
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-
-
-        TableViewColumn
+        TableView
         {
-            title: "Name"
-            role: "name"
-            movable: false
-            width: 180
-        }
+            id: layerslistView
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
 
-        TableViewColumn
-        {
-            title: "description"
-            role: "description"
+            TableViewColumn
+            {
+                title: "Name"
+                role: "name"
+                movable: false
+                width: 180
+            }
 
-            movable: false
-            width: 180
 
-        }
+            TableViewColumn
+            {
+                title: "description"
+                role: "description"
 
-        TableViewColumn
-        {
-            title: "Visible"
-            movable: false
-            width: 180
-            delegate: CheckBox {
-                checked: model.layerVisible
-                onCheckedChanged: model.layerVisible = checked
+                movable: false
+                width: 180
+
+            }
+
+            TableViewColumn
+            {
+                title: "Visible"
+                movable: false
+                width: 60
+                delegate: CheckBox {
+                    checked: model.layerVisible
+                    onCheckedChanged: model.layerVisible = checked
+                }
+
+            }
+
+            TableViewColumn
+            {
+                title: "Layer Id"
+                movable: false
+                width: 60
+                delegate: Text {
+                    text: model.layerId
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Opacity"
+                movable: false
+                width: 100
+                delegate: Slider {
+                    minimumValue: 0.0
+                    maximumValue: 1.0
+                    stepSize: 0.05
+
+                    value: model.layerOpacity
+                    onValueChanged: model.layerOpacity = value
+                }
             }
 
         }
-
-        TableViewColumn
-        {
-            title: "Layer Id"
-            movable: false
-            width: 180
-            delegate: Text {
-                text: model.layerId
-            }
-        }
-
-        TableViewColumn
-        {
-            title: "Opacity"
-            movable: false
-            width: 180
-            delegate: Slider {
-                minimumValue: 0.0
-                maximumValue: 1.0
-                stepSize: 0.05
-
-                value: model.layerOpacity
-                onValueChanged: model.layerOpacity = value
-            }
-        }
-
-    }
     }
 }

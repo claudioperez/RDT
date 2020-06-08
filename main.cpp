@@ -78,7 +78,6 @@ int main(int argc, char *argv[])
 
     // Register the RDT (QQuickItem) for QML
     qmlRegisterType<RDT>("SimCenter.RDT", 1, 0, "RDT");
-    qmlRegisterType<TableModel>("TableModel", 0, 1, "TableModel");
 
     // Initialize application view
     QQmlApplicationEngine engine;

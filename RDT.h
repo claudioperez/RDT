@@ -20,43 +20,6 @@
 #include "LayerListModel.h"
 #include "JobDetailsModel.h"
 
-class TableModel : public QAbstractTableModel
-{
-    Q_OBJECT
-
-public:
-
-    int rowCount(const QModelIndex & = QModelIndex()) const override
-    {
-        return 1;
-    }
-
-    int columnCount(const QModelIndex & = QModelIndex()) const override
-    {
-        return 2;
-    }
-
-    QVariant data(const QModelIndex &index, int role) const override
-    {
-        switch (role) {
-            case Qt::DisplayRole:
-                if (index.column() == 0)
-                    return QString("Layer");
-                else
-                    return QString("Symbol Size");
-            default:
-                break;
-        }
-
-        return QVariant();
-    }
-
-    QHash<int, QByteArray> roleNames() const override
-    {
-        return { {Qt::DisplayRole, "display"} };
-    }
-};
-
 namespace Esri
 {
 namespace ArcGISRuntime
@@ -78,6 +41,7 @@ class RDT : public QObject
     Q_PROPERTY(QStringList inputs MEMBER m_inputs NOTIFY inputsChanged)
     Q_PROPERTY(Esri::ArcGISRuntime::LayerListModel* layers READ getLayers NOTIFY layersChanged)
     Q_PROPERTY(JobDetailsModel* jobDetails READ jobDetails)
+    Q_PROPERTY(QByteArray textFileContents MEMBER m_textFileContents NOTIFY textFileContentsChanged)
 
 
 public:
@@ -88,8 +52,8 @@ public:
     Q_INVOKABLE bool isLoggedIn();
     Q_INVOKABLE void login(QString username, QString password);
     Q_INVOKABLE void refreshJobs();
-    Q_INVOKABLE QString getJob(int index);
-    Q_INVOKABLE void loadResults(QString path);
+    Q_INVOKABLE void getJobDetails(int index);
+    Q_INVOKABLE void loadResultFile(QString outputFile);
     Q_INVOKABLE void submitJob(QString job);
 
 signals:
@@ -97,6 +61,7 @@ signals:
     void mapDrawStatusChanged();
     void inputsChanged();
     void layersChanged();
+    void textFileContentsChanged();
 
 
 private:
@@ -110,6 +75,7 @@ private:
     QString m_resultsPath;
     QStringList m_inputs;
     JobDetailsModel* m_jobDetails;
+    QByteArray m_textFileContents;
 
     Esri::ArcGISRuntime::MapQuickView* mapView() const;
     JobsListModel* jobsList();

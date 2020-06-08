@@ -113,6 +113,7 @@ ApplicationWindow {
     JobsForm{
         id: jobsForm
         rdt: rdt.model
+        textViewer: textViewer
     }
 
     SubmitJobForm{
@@ -122,6 +123,11 @@ ApplicationWindow {
 
     LayersTable{
         id: layersForm
+        rdt: rdt.model
+    }
+
+    TextViewer{
+        id: textViewer
         rdt: rdt.model
     }
 
