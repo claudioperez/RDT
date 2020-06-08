@@ -13,9 +13,23 @@ Dialog {
 
     property alias model: jobslistView.model
     property RDT rdt
+    property TextViewer textViewer
 
-    RowLayout{
+    GridLayout{
         anchors.fill: parent
+        rows: 2
+        columns: 2
+
+        Text {
+            text: qsTr("Jobs Listing")
+            font.pointSize: 10
+        }
+
+        Text {
+            text: qsTr("Job Details")
+            font.pointSize: 10
+
+        }
 
         TableView{
             id: jobslistView
@@ -23,23 +37,26 @@ Dialog {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
+
             onRowCountChanged:
             {
                 if(rowCount > 0)
-                    rdt.getJob(0)
+                    rdt.getJobDetails(0)
             }
 
             onClicked:
             {
-                rdt.getJob(currentRow)
+                rdt.getJobDetails(currentRow)
             }
 
             TableViewColumn
             {
+                id: nameCol
                 title: "Name"
                 role: "Name"
                 movable: false
                 width: 180
+
             }
 
             TableViewColumn
@@ -79,6 +96,13 @@ Dialog {
             Layout.fillWidth: true
 
 
+            onModelChanged: {
+                //TODO:: expand inputs and outputs
+                console.log("model changed")
+                expand(model.index(10,0))
+                expand(model.index(11,0))
+            }
+
             TableViewColumn
             {
                 title: "Name"
@@ -91,7 +115,41 @@ Dialog {
             {
                 title: "Value"
                 role: "Value"
-                width: 300
+                width: 480
+                delegate: RowLayout{
+                    Text{
+                        id: valueText
+                        text: {
+                            if (model && model.Value && typeof model.Value === "string")
+                                return model.Value
+                            else
+                                return ""
+                        }
+                    }
+
+
+                    Button{
+                        text: {
+                            if(valueText.text.endsWith(".csv"))
+                                return "Load"
+                            else
+                                return "Show"
+                        }
+                        visible: valueText.text.endsWith(".csv") ||
+                                 valueText.text.endsWith(".out") ||
+                                 valueText.text.endsWith(".err") ||
+                                 valueText.text.endsWith(".log") ||
+                                 valueText.text.includes("WorkflowTasks")
+                        Layout.fillHeight: true
+                        Layout.alignment: Qt.AlignRight
+
+                        onClicked: {
+                            rdt.loadResultFile(valueText.text)
+                            if(!valueText.text.endsWith(".csv"))
+                                textViewer.open()
+                        }
+                    }
+                }
             }
         }
     }

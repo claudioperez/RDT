@@ -100,11 +100,14 @@ void JobDetailsModel::setOutputs(QJsonArray outputs)
     if (0 == outputs[0].toObject()["name"].toString().compare("."))
         outputs.removeAt(0);
 
-    auto outputIndex = index(11, 0, QModelIndex());
-
     beginResetModel();
     m_outputs = outputs;
     endResetModel();
+}
+
+QJsonArray JobDetailsModel::getOutputs()
+{
+    return m_outputs;
 }
 
 
@@ -188,7 +191,7 @@ QVariant JobDetailsModel::getOutputType(QString filename) const
         return "Error File";
     else if(0 == filename.compare(".agave.log"))
         return "Agave Log";
-    else if(0 == filename.contains("WorkflowTasks"))
+    else if(filename.contains("WorkflowTasks"))
         return "Simulation Tasks";
     else
         return QVariant();

@@ -148,20 +148,36 @@ void RDT::refreshJobs()
         client->getJobListCall("", "rWHALE-1*");
 }
 
-QString RDT::getJob(int index)
+void RDT::getJobDetails(int index)
 {
     auto jobId = m_jobsList->getJobId(index);
-    QJsonDocument jobDetails(client->getJobDetails(jobId));
-    m_jobDetails->setJob(jobDetails.object());
-
-    client->remoteLSCall(jobDetails.object()["archivePath"].toString());
-
-    return jobDetails.toJson(QJsonDocument::Compact);
+    client->getJobDetailsCall(jobId);
+    return;
 }
 
-void RDT::loadResults(QString path)
+void RDT::loadResultFile(QString outputFile)
 {
-    client->remoteLSCall(path);
+    //client->remoteLSCall(outputFile);
+
+    for (auto file: m_jobDetails->getOutputs())
+    {
+        auto fileName =  file.toObject()["name"].toString();
+        if(0 == fileName.compare(outputFile))
+        {
+            auto path = file.toObject()["path"].toString();
+            QStringList remoteFiles;
+            //TODO: we may need to handle files from different storage systems, for now using default
+            remoteFiles << "system/designsafe.storage.default" + path;
+
+            QStringList localFiles;
+            m_resultsPath = QDir::tempPath() + path;
+            localFiles << m_resultsPath;
+
+            QDir(m_resultsPath.left(m_resultsPath.lastIndexOf('/'))).mkpath(".");
+
+            client->downloadFilesCall(remoteFiles, localFiles, this);
+        }
+    }
 }
 
 void RDT::submitJob(QString job)
@@ -207,33 +223,22 @@ void RDT::setupConnections()
 
     connect(client, &AgaveCurl::remoteLSReturn, this, [this](QJsonArray remoteFiles){
         m_jobDetails->setOutputs(remoteFiles);
-
-//        for (auto file: remoteFiles)
-//        {
-//            auto fileName =  file.toObject()["name"].toString();
-//            if(0 == fileName.compare("RegionalDamageLoss.csv"))
-//            {
-//                auto path = file.toObject()["path"].toString();
-//                QStringList remoteFiles;
-//                remoteFiles << path;
-
-//                QStringList localFiles;
-//                m_resultsPath = QDir::tempPath() + path;
-//                localFiles << m_resultsPath;
-
-//                QDir(m_resultsPath.left(m_resultsPath.lastIndexOf('/'))).mkpath(".");
-
-//                client->downloadFilesCall(remoteFiles, localFiles, this);
-
-//            }
-//        }
     });
 
     connect(client, &AgaveCurl::downloadFilesReturn, this, [this](bool result, QObject* sender){
         Q_UNUSED(result)
         if(sender == this)
         {
-            this->addCSVLayer(m_resultsPath);
+            if(m_resultsPath.endsWith(".csv"))
+                this->addCSVLayer(m_resultsPath);
+            else
+            {
+                QFile file(m_resultsPath);
+                file.open(QFile::ReadOnly);
+                m_textFileContents = file.readAll();
+                file.close();
+                emit textFileContentsChanged();
+            }
         }
 
     });
@@ -242,8 +247,13 @@ void RDT::setupConnections()
         m_jobsList->setJobs(jobs);
     });
 
+    connect(client, &AgaveCurl::getJobDetailsReturn, this, [this](QJsonObject jobDetails){
+        m_jobDetails->setJob(jobDetails);
+        client->remoteLSCall(jobDetails["archivePath"].toString());
+    });
+
     connect(client, &AgaveCurl::startJobReturn, this, [](QString jobreturn){
-        qDebug() << jobreturn;
+        qDebug() << jobreturn;//TODO: handle job submisstion result
     });
 }
 

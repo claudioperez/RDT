@@ -39,6 +39,7 @@ private:
 public:
     void setJob(QJsonObject jobDetails);
     void setOutputs(QJsonArray jobDetails);
+    QJsonArray getOutputs();
 
 };
 
