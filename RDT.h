@@ -37,11 +37,12 @@ class RDT : public QObject
 
     Q_PROPERTY(Esri::ArcGISRuntime::MapQuickView* mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
     Q_PROPERTY(bool mapDrawing READ mapDrawing NOTIFY mapDrawStatusChanged)
-    Q_PROPERTY(JobsListModel* jobsList READ jobsList)
+    Q_PROPERTY(JobsListModel* jobsList READ jobsList NOTIFY jobsListChanged)
     Q_PROPERTY(QStringList inputs MEMBER m_inputs NOTIFY inputsChanged)
     Q_PROPERTY(Esri::ArcGISRuntime::LayerListModel* layers READ getLayers NOTIFY layersChanged)
-    Q_PROPERTY(JobDetailsModel* jobDetails READ jobDetails)
+    Q_PROPERTY(JobDetailsModel* jobDetails READ jobDetails NOTIFY jobDetailsChanged)
     Q_PROPERTY(QByteArray textFileContents MEMBER m_textFileContents NOTIFY textFileContentsChanged)
+    Q_PROPERTY(bool loggendIn MEMBER m_loggedIn NOTIFY loggedInChanged)
 
 
 public:
@@ -55,6 +56,10 @@ public:
     Q_INVOKABLE void getJobDetails(int index);
     Q_INVOKABLE void loadResultFile(QString outputFile);
     Q_INVOKABLE void submitJob(QString job);
+    Q_INVOKABLE void downloadOutputFile(QString outputFileName, QString filePath);
+    Q_INVOKABLE void deleteLayer(int index);
+    Q_INVOKABLE void moveLayerUp(int index);
+    Q_INVOKABLE void moveLayerDown(int index);
 
 signals:
     void mapViewChanged();
@@ -62,7 +67,9 @@ signals:
     void inputsChanged();
     void layersChanged();
     void textFileContentsChanged();
-
+    void loggedInChanged();
+    void jobsListChanged();
+    void jobDetailsChanged();
 
 private:
     void setMapView(Esri::ArcGISRuntime::MapQuickView* mapView);
@@ -76,6 +83,7 @@ private:
     QStringList m_inputs;
     JobDetailsModel* m_jobDetails;
     QByteArray m_textFileContents;
+    bool m_loggedIn;
 
     Esri::ArcGISRuntime::MapQuickView* mapView() const;
     JobsListModel* jobsList();

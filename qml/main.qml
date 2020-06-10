@@ -153,6 +153,18 @@ ApplicationWindow {
         StatusBar{
             id: statusBar
             Layout.fillWidth: true
+
+            RowLayout{
+                Label {
+                    text: {
+                        if(rdt.model.loggendIn)
+                            return "Logged In"
+                        else
+                            return "Logged Out"
+                    }
+                }
+            }
+
         }
 
     }

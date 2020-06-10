@@ -9,12 +9,53 @@ Dialog {
     height: 360
     width: 960
 
+
     title: "Manage Layers"
     standardButtons: Dialog.Ok  | Dialog.Cancel
 
     property alias model: layerslistView.model
-    RowLayout{
+    ColumnLayout{
         anchors.fill: parent
+        ToolBar
+        {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                Row
+                {
+                    anchors.fill: parent
+                    ToolButton
+                    {
+                        height: parent.height
+                        text: "Delete"
+                        onClicked:
+                        {
+                            rdt.deleteLayer(layerslistView.currentRow)
+                        }
+                    }
+
+                    ToolButton
+                    {
+                        height: parent.height
+                        text: "Up"
+                        onClicked:
+                        {
+                            rdt.moveLayerUp(layerslistView.currentRow)
+                        }
+
+
+                    }
+
+                    ToolButton
+                    {
+                        height: parent.height
+                        text: "Down"
+                        onClicked:
+                        {
+                            rdt.moveLayerDown(layerslistView.currentRow)
+                        }
+                    }
+                }
+        }
 
         TableView
         {

@@ -34,7 +34,8 @@ using namespace Esri::ArcGISRuntime;
 
 RDT::RDT(QObject* parent /* = nullptr */):
     QObject(parent),
-    m_map(new Map(Basemap::topographic(this), this))
+    m_map(new Map(Basemap::topographic(this), this)),
+    m_loggedIn(false)
 {
     QString tenant("https://agave.designsafe-ci.org");
     QString storage("designsafe.storage.default");
@@ -186,6 +187,45 @@ void RDT::submitJob(QString job)
     client->startJobCall(jobDoc.object());
 }
 
+void RDT::downloadOutputFile(QString outputFileName, QString filePath)
+{
+    if (filePath.startsWith("file:///"))
+        filePath = filePath.remove("file:///");
+    for (auto file: m_jobDetails->getOutputs())
+    {
+        auto fileName =  file.toObject()["name"].toString();
+        if(0 == fileName.compare(outputFileName))
+        {
+            auto path = file.toObject()["path"].toString();
+            QStringList remoteFiles;
+            //TODO: we may need to handle files from different storage systems, for now using default
+            remoteFiles << "system/designsafe.storage.default" + path;
+
+            QStringList localFiles;
+            localFiles << filePath;
+
+            client->downloadFilesCall(remoteFiles, localFiles, nullptr);
+        }
+    }
+}
+
+void RDT::deleteLayer(int index)
+{
+    m_map->operationalLayers()->removeAt(index);
+}
+
+void RDT::moveLayerUp(int index)
+{
+    if (index > 0)
+        m_map->operationalLayers()->move(index, index - 1);
+}
+
+void RDT::moveLayerDown(int index)
+{
+    if (index < m_map->operationalLayers()->size() - 1)
+        m_map->operationalLayers()->move(index, index + 1);
+}
+
 MapQuickView* RDT::mapView() const
 {
     return m_mapView;
@@ -254,6 +294,16 @@ void RDT::setupConnections()
 
     connect(client, &AgaveCurl::startJobReturn, this, [](QString jobreturn){
         qDebug() << jobreturn;//TODO: handle job submisstion result
+    });
+
+    connect(client, &AgaveCurl::loginReturn, this, [this](bool loggedIn){
+        m_loggedIn = loggedIn;
+        emit loggedInChanged();
+    });
+
+    connect(client, &AgaveCurl::logoutReturn, this, [this](bool loggedOut){
+        m_loggedIn = !loggedOut;
+        emit loggedInChanged();
     });
 }
 

@@ -19,6 +19,5 @@ Dialog {
         text: rdt.textFileContents
         anchors.fill: parent
         readOnly: true
-
     }
 }

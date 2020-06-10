@@ -120,7 +120,7 @@ Dialog {
                     Text{
                         id: valueText
                         text: {
-                            if (model && model.Value && typeof model.Value === "string")
+                            if (model && model.Value)
                                 return model.Value
                             else
                                 return ""
@@ -132,6 +132,8 @@ Dialog {
                         text: {
                             if(valueText.text.endsWith(".csv"))
                                 return "Load"
+                            else if(valueText.text.includes("logs.zip"))
+                                return "Download"
                             else
                                 return "Show"
                         }
@@ -139,17 +141,41 @@ Dialog {
                                  valueText.text.endsWith(".out") ||
                                  valueText.text.endsWith(".err") ||
                                  valueText.text.endsWith(".log") ||
+                                 valueText.text.includes("logs.zip") ||
                                  valueText.text.includes("WorkflowTasks")
+
                         Layout.fillHeight: true
                         Layout.alignment: Qt.AlignRight
 
                         onClicked: {
-                            rdt.loadResultFile(valueText.text)
-                            if(!valueText.text.endsWith(".csv"))
-                                textViewer.open()
+                            if(valueText.text.endsWith(".zip"))
+                            {
+                                fileDialog.output = valueText.text
+                                fileDialog.open()
+                            }
+                            else
+                            {
+                                rdt.loadResultFile(valueText.text)
+                                if(!valueText.text.endsWith(".csv"))
+                                    textViewer.open()
+                            }
                         }
                     }
                 }
+            }
+
+            FileDialog {
+                id: fileDialog
+                property string output
+
+                title: "Please select file location to save"
+                nameFilters: [ "Zip files (*.zip)", "All files (*)" ]
+                selectExisting: false
+                selectMultiple: false
+                onAccepted: {
+                    rdt.downloadOutputFile(output, fileDialog.fileUrl)
+                }
+
             }
         }
     }
