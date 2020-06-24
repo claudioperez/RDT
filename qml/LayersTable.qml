@@ -168,19 +168,23 @@ Dialog {
                 title: "Minimum"
                 movable: false
                 width: 50
-                delegate: TextEdit
+                delegate: TextInput
                 {
                     text: model.Minimum
-
+                    onEditingFinished: model.Minimum = parseFloat(text)
                 }
             }
 
             TableViewColumn
             {
                 title: "Maximum"
-                role: "Maximum"
                 movable: false
                 width: 50
+                delegate: TextInput
+                {
+                    text: model.Maximum
+                    onEditingFinished: model.Maximum = parseFloat(text)
+                }
             }
 
             TableViewColumn

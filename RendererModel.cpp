@@ -70,17 +70,35 @@ bool RendererModel::setData(const QModelIndex &index, const QVariant &value, int
     switch(role)
     {
         case RendererRoles::Name:
+        {
             m_renderer->classBreaks()->at(index.row())->setLabel(value.toString());
+            break;
+        }
         case RendererRoles::Description:
+        {
             m_renderer->classBreaks()->at(index.row())->setDescription(value.toString());
+            break;
+        }
         case RendererRoles::Minimum:
+        {
             m_renderer->classBreaks()->at(index.row())->setMinValue(value.toDouble());
+            break;
+        }
         case RendererRoles::Maximum:
+        {
             m_renderer->classBreaks()->at(index.row())->setMaxValue(value.toDouble());
+            break;
+        }
         case RendererRoles::Color:
+        {
             reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->setColor(value.value<QColor>());
+            break;
+        }
         case RendererRoles::Shape:
+        {
             reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->setStyle(value.value<Esri::ArcGISRuntime::SimpleMarkerSymbolStyle>());
+            break;
+        }
     }
 
     emit dataChanged(index, index, {role});
