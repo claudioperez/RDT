@@ -63,6 +63,7 @@ ApplicationWindow {
                     onTriggered: {
                         layersForm.open()
                         layersForm.model = rdt.model.layers
+                        layersForm.rendererModel = rdt.model.renderer
                     }
                 }
             }
@@ -70,14 +71,17 @@ ApplicationWindow {
                 title: "&Analysis"
                 MenuItem {
                     text: "&Login"
+                    enabled: !rdt.model.loggendIn
                     onTriggered: loginForm.open()
                 }
 
                 Menu {
                     title: "&Jobs"
+                    enabled: rdt.model.loggendIn
 
                     MenuItem{
                         text: "&Manage"
+                        enabled: rdt.model.loggendIn
                         onTriggered: {
                             rdt.model.refreshJobs()
                             jobsForm.open()
@@ -87,6 +91,7 @@ ApplicationWindow {
 
                     MenuItem{
                         text: "&Submit"
+                        enabled: rdt.model.loggendIn
                         onTriggered: {
                             submitJobForm.open()
                         }
@@ -153,6 +158,18 @@ ApplicationWindow {
         StatusBar{
             id: statusBar
             Layout.fillWidth: true
+
+            RowLayout{
+                Label {
+                    text: {
+                        if(rdt.model.loggendIn)
+                            return "Logged In"
+                        else
+                            return "Logged Out"
+                    }
+                }
+            }
+
         }
 
     }

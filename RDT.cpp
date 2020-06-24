@@ -34,7 +34,8 @@ using namespace Esri::ArcGISRuntime;
 
 RDT::RDT(QObject* parent /* = nullptr */):
     QObject(parent),
-    m_map(new Map(Basemap::topographic(this), this))
+    m_map(new Map(Basemap::topographic(this), this)),
+    m_loggedIn(false)
 {
     QString tenant("https://agave.designsafe-ci.org");
     QString storage("designsafe.storage.default");
@@ -52,6 +53,7 @@ RDT::RDT(QObject* parent /* = nullptr */):
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageBuildings.zip";
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageM7GMs.zip";
 
+    m_rendererModel = new RendererModel();
     setupConnections();
 }
 
@@ -102,18 +104,18 @@ void RDT::addCSVLayer(QString filePath)
     // Define the renderer
 
     QList<ClassBreak*> classBreaks;
-    auto redCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Red"), 5.0, this);
-    auto classBreak = new ClassBreak("High Loss Ratio", "Loss Ratio more than 50%", 0.5, 1.0,redCircle);
-    classBreaks.append(classBreak);
 
     auto greenCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Light Green"), 5.0, this);
     auto greenClassBreak = new ClassBreak("Low Loss Ratio", "Loss Ratio less than 10%", 0.0, 0.1, greenCircle);
     classBreaks.append(greenClassBreak);
 
-
     auto yellowCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Yellow"), 5.0, this);
-    auto yellowClassBreak = new ClassBreak("Low Loss Ratio", "Loss Ratio less than 10%", 0.1, 0.5, yellowCircle);
+    auto yellowClassBreak = new ClassBreak("Medium Loss Ratio", "Loss Ratio Between 10% and 50%", 0.1, 0.5, yellowCircle);
     classBreaks.append(yellowClassBreak);
+
+    auto redCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Red"), 5.0, this);
+    auto classBreak = new ClassBreak("High Loss Ratio", "Loss Ratio more than 50%", 0.5, 1.0,redCircle);
+    classBreaks.append(classBreak);
 
     auto renderer = new ClassBreaksRenderer("LossRatio", classBreaks);
     featureCollectionTable->setRenderer(renderer);
@@ -186,6 +188,53 @@ void RDT::submitJob(QString job)
     client->startJobCall(jobDoc.object());
 }
 
+void RDT::downloadOutputFile(QString outputFileName, QString filePath)
+{
+    if (filePath.startsWith("file:///"))
+        filePath = filePath.remove("file:///");
+    for (auto file: m_jobDetails->getOutputs())
+    {
+        auto fileName =  file.toObject()["name"].toString();
+        if(0 == fileName.compare(outputFileName))
+        {
+            auto path = file.toObject()["path"].toString();
+            QStringList remoteFiles;
+            //TODO: we may need to handle files from different storage systems, for now using default
+            remoteFiles << "system/designsafe.storage.default" + path;
+
+            QStringList localFiles;
+            localFiles << filePath;
+
+            client->downloadFilesCall(remoteFiles, localFiles, nullptr);
+        }
+    }
+}
+
+void RDT::deleteLayer(int index)
+{
+    m_map->operationalLayers()->removeAt(index);
+}
+
+void RDT::moveLayerUp(int index)
+{
+    if (index > 0)
+        m_map->operationalLayers()->move(index, index - 1);
+}
+
+void RDT::moveLayerDown(int index)
+{
+    if (index < m_map->operationalLayers()->size() - 1)
+        m_map->operationalLayers()->move(index, index + 1);
+}
+
+void RDT::setRenderer(int index)
+{
+    auto layer = reinterpret_cast<FeatureCollectionLayer*>(m_map->operationalLayers()->at(index));
+    auto table = reinterpret_cast<FeatureCollectionTable*>(layer->featureCollection()->tables()->at(0));
+    m_rendererModel->setRenderer(reinterpret_cast<ClassBreaksRenderer*>(table->renderer()));
+    emit rendererChanged();
+}
+
 MapQuickView* RDT::mapView() const
 {
     return m_mapView;
@@ -254,6 +303,16 @@ void RDT::setupConnections()
 
     connect(client, &AgaveCurl::startJobReturn, this, [](QString jobreturn){
         qDebug() << jobreturn;//TODO: handle job submisstion result
+    });
+
+    connect(client, &AgaveCurl::loginReturn, this, [this](bool loggedIn){
+        m_loggedIn = loggedIn;
+        emit loggedInChanged();
+    });
+
+    connect(client, &AgaveCurl::logoutReturn, this, [this](bool loggedOut){
+        m_loggedIn = !loggedOut;
+        emit loggedInChanged();
     });
 }
 

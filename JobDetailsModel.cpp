@@ -1,6 +1,7 @@
 #include "JobDetailsModel.h"
 #include "QJsonArray"
 
+
 JobDetailsModel::JobDetailsModel(QObject *parent) : QAbstractItemModel(parent)
 {
 

@@ -9,27 +9,78 @@ Dialog {
     height: 360
     width: 960
 
+
     title: "Manage Layers"
     standardButtons: Dialog.Ok  | Dialog.Cancel
 
-    property alias model: layerslistView.model
-    RowLayout{
+    property alias model: layersListView.model
+    property alias rendererModel: rendererListView.model
+
+    GridLayout{
         anchors.fill: parent
+        columns: 2
+
+        ToolBar
+        {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                Layout.columnSpan: 2
+
+                Row
+                {
+                    anchors.fill: parent
+                    ToolButton
+                    {
+                        height: parent.height
+                        text: "Delete"
+                        onClicked:
+                        {
+                            rdt.deleteLayer(layerslistView.currentRow)
+                        }
+                    }
+
+                    ToolButton
+                    {
+                        height: parent.height
+                        text: "Up"
+                        onClicked:
+                        {
+                            rdt.moveLayerUp(layerslistView.currentRow)
+                        }
+
+
+                    }
+
+                    ToolButton
+                    {
+                        height: parent.height
+                        text: "Down"
+                        onClicked:
+                        {
+                            rdt.moveLayerDown(layerslistView.currentRow)
+                        }
+                    }
+                }
+        }
 
         TableView
         {
-            id: layerslistView
+            id: layersListView
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-
+            onClicked:
+            {
+                console.log(currentRow)
+                rdt.setRenderer(currentRow)
+            }
             TableViewColumn
             {
                 title: "Name"
                 role: "name"
                 movable: false
-                width: 180
+                width: 80
             }
 
 
@@ -39,7 +90,7 @@ Dialog {
                 role: "description"
 
                 movable: false
-                width: 180
+                width: 100
 
             }
 
@@ -69,7 +120,7 @@ Dialog {
             {
                 title: "Opacity"
                 movable: false
-                width: 100
+                width: 50
                 delegate: Slider {
                     minimumValue: 0.0
                     maximumValue: 1.0
@@ -81,5 +132,94 @@ Dialog {
             }
 
         }
+
+
+        TableView
+        {
+            Layout.fillHeight:  true
+            Layout.fillWidth: true
+
+            id: rendererListView
+
+            TableViewColumn
+            {
+                title: "Name"
+                movable: false
+                width: 120
+                delegate: TextEdit
+                {
+                    text: model.Name
+                    onEditingFinished: model.Name = text
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Description"
+                movable: false
+                width: 250
+                delegate: TextInput
+                {
+                    text: model.Description
+                    onEditingFinished: model.Description = text
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Minimum"
+                movable: false
+                width: 50
+                delegate: TextInput
+                {
+                    text: model.Minimum
+                    onEditingFinished: model.Minimum = parseFloat(text)
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Maximum"
+                movable: false
+                width: 50
+                delegate: TextInput
+                {
+                    text: model.Maximum
+                    onEditingFinished: model.Maximum = parseFloat(text)
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Color"
+                movable: false
+                width: 50
+                delegate: Item {
+
+                    Rectangle{
+                        color: model.Color
+                        anchors.fill: parent
+                        MouseArea{
+                            onClicked: colorDialog.open()
+                            anchors.fill: parent
+                        }
+                    }
+                    ColorDialog{
+                        id: colorDialog
+                        onAccepted: model.Color = currentColor
+                    }
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Shape"
+                movable: false
+                width: 50
+                role: Shape
+
+            }
+        }
+
     }
 }

@@ -73,7 +73,7 @@ QVariant JobsListModel::data(const QModelIndex &index, int role) const
     }
 
 
-    return QString("N/A");
+    return QVariant();
 }
 
 void JobsListModel::setJobs(QJsonObject jobsJson)
