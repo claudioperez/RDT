@@ -40,11 +40,13 @@ HEADERS += \
     AppInfo.h \
     JobDetailsModel.h \
     JobsListModel.h \
-    RDT.h
+    RDT.h \
+    RendererModel.h
 
 SOURCES += \
     JobDetailsModel.cpp \
     JobsListModel.cpp \
+    RendererModel.cpp \
     main.cpp \
     RDT.cpp
 

@@ -19,6 +19,7 @@
 #include "JobsListModel.h"
 #include "LayerListModel.h"
 #include "JobDetailsModel.h"
+#include "RendererModel.h"
 
 namespace Esri
 {
@@ -43,7 +44,7 @@ class RDT : public QObject
     Q_PROPERTY(JobDetailsModel* jobDetails READ jobDetails NOTIFY jobDetailsChanged)
     Q_PROPERTY(QByteArray textFileContents MEMBER m_textFileContents NOTIFY textFileContentsChanged)
     Q_PROPERTY(bool loggendIn MEMBER m_loggedIn NOTIFY loggedInChanged)
-
+    Q_PROPERTY(RendererModel* renderer MEMBER m_rendererModel NOTIFY rendererChanged)
 
 public:
     explicit RDT(QObject* parent = nullptr);
@@ -60,6 +61,7 @@ public:
     Q_INVOKABLE void deleteLayer(int index);
     Q_INVOKABLE void moveLayerUp(int index);
     Q_INVOKABLE void moveLayerDown(int index);
+    Q_INVOKABLE void setRenderer(int index);
 
 signals:
     void mapViewChanged();
@@ -70,6 +72,7 @@ signals:
     void loggedInChanged();
     void jobsListChanged();
     void jobDetailsChanged();
+    void rendererChanged();
 
 private:
     void setMapView(Esri::ArcGISRuntime::MapQuickView* mapView);
@@ -84,6 +87,7 @@ private:
     JobDetailsModel* m_jobDetails;
     QByteArray m_textFileContents;
     bool m_loggedIn;
+    RendererModel* m_rendererModel;
 
     Esri::ArcGISRuntime::MapQuickView* mapView() const;
     JobsListModel* jobsList();

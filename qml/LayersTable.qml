@@ -13,13 +13,19 @@ Dialog {
     title: "Manage Layers"
     standardButtons: Dialog.Ok  | Dialog.Cancel
 
-    property alias model: layerslistView.model
-    ColumnLayout{
+    property alias model: layersListView.model
+    property alias rendererModel: rendererListView.model
+
+    GridLayout{
         anchors.fill: parent
+        columns: 2
+
         ToolBar
         {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 25
+                Layout.columnSpan: 2
+
                 Row
                 {
                     anchors.fill: parent
@@ -59,18 +65,22 @@ Dialog {
 
         TableView
         {
-            id: layerslistView
+            id: layersListView
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-
+            onClicked:
+            {
+                console.log(currentRow)
+                rdt.setRenderer(currentRow)
+            }
             TableViewColumn
             {
                 title: "Name"
                 role: "name"
                 movable: false
-                width: 180
+                width: 80
             }
 
 
@@ -80,7 +90,7 @@ Dialog {
                 role: "description"
 
                 movable: false
-                width: 180
+                width: 100
 
             }
 
@@ -110,7 +120,7 @@ Dialog {
             {
                 title: "Opacity"
                 movable: false
-                width: 100
+                width: 50
                 delegate: Slider {
                     minimumValue: 0.0
                     maximumValue: 1.0
@@ -122,5 +132,77 @@ Dialog {
             }
 
         }
+
+
+        TableView
+        {
+            Layout.fillHeight:  true
+            Layout.fillWidth: true
+
+            id: rendererListView
+
+            TableViewColumn
+            {
+                title: "Name"
+                movable: false
+                width: 80
+                delegate: TextEdit
+                {
+                    text: model.Name
+
+
+                }
+
+            }
+
+            TableViewColumn
+            {
+                title: "Description"
+                role: "Description"
+                movable: false
+                width: 120
+            }
+
+            TableViewColumn
+            {
+                title: "Minimum"
+                movable: false
+                width: 50
+                delegate: TextEdit
+                {
+                    text: model.Minimum
+
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Maximum"
+                role: "Maximum"
+                movable: false
+                width: 50
+            }
+
+            TableViewColumn
+            {
+                title: "Color"
+                movable: false
+                width: 50
+                delegate: Rectangle
+                {
+                    color: model.Color
+                }
+            }
+
+            TableViewColumn
+            {
+                title: "Shape"
+                movable: false
+                width: 50
+                role: Shape
+
+            }
+        }
+
     }
 }

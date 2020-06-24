@@ -53,6 +53,7 @@ RDT::RDT(QObject* parent /* = nullptr */):
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageBuildings.zip";
     m_inputs << "agave://designsafe.storage.community/SimCenter/Datasets/AnchorageM7/AnchorageM7GMs.zip";
 
+    m_rendererModel = new RendererModel();
     setupConnections();
 }
 
@@ -103,18 +104,18 @@ void RDT::addCSVLayer(QString filePath)
     // Define the renderer
 
     QList<ClassBreak*> classBreaks;
-    auto redCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Red"), 5.0, this);
-    auto classBreak = new ClassBreak("High Loss Ratio", "Loss Ratio more than 50%", 0.5, 1.0,redCircle);
-    classBreaks.append(classBreak);
 
     auto greenCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Light Green"), 5.0, this);
     auto greenClassBreak = new ClassBreak("Low Loss Ratio", "Loss Ratio less than 10%", 0.0, 0.1, greenCircle);
     classBreaks.append(greenClassBreak);
 
-
     auto yellowCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Yellow"), 5.0, this);
-    auto yellowClassBreak = new ClassBreak("Low Loss Ratio", "Loss Ratio less than 10%", 0.1, 0.5, yellowCircle);
+    auto yellowClassBreak = new ClassBreak("Medium Loss Ratio", "Loss Ratio Between 10% and 50%", 0.1, 0.5, yellowCircle);
     classBreaks.append(yellowClassBreak);
+
+    auto redCircle = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle::Circle, QColor("Red"), 5.0, this);
+    auto classBreak = new ClassBreak("High Loss Ratio", "Loss Ratio more than 50%", 0.5, 1.0,redCircle);
+    classBreaks.append(classBreak);
 
     auto renderer = new ClassBreaksRenderer("LossRatio", classBreaks);
     featureCollectionTable->setRenderer(renderer);
@@ -224,6 +225,14 @@ void RDT::moveLayerDown(int index)
 {
     if (index < m_map->operationalLayers()->size() - 1)
         m_map->operationalLayers()->move(index, index + 1);
+}
+
+void RDT::setRenderer(int index)
+{
+    auto layer = reinterpret_cast<FeatureCollectionLayer*>(m_map->operationalLayers()->at(index));
+    auto table = reinterpret_cast<FeatureCollectionTable*>(layer->featureCollection()->tables()->at(0));
+    m_rendererModel->setRenderer(reinterpret_cast<ClassBreaksRenderer*>(table->renderer()));
+    emit rendererChanged();
 }
 
 MapQuickView* RDT::mapView() const
