@@ -145,22 +145,24 @@ Dialog {
             {
                 title: "Name"
                 movable: false
-                width: 80
+                width: 120
                 delegate: TextEdit
                 {
                     text: model.Name
-
-
+                    onEditingFinished: model.Name = text
                 }
-
             }
 
             TableViewColumn
             {
                 title: "Description"
-                role: "Description"
                 movable: false
-                width: 120
+                width: 250
+                delegate: TextInput
+                {
+                    text: model.Description
+                    onEditingFinished: model.Description = text
+                }
             }
 
             TableViewColumn
@@ -207,13 +209,6 @@ Dialog {
                         onAccepted: model.Color = currentColor
                     }
                 }
-
-
-
-
-
-
-
             }
 
             TableViewColumn
