@@ -192,10 +192,28 @@ Dialog {
                 title: "Color"
                 movable: false
                 width: 50
-                delegate: Rectangle
-                {
-                    color: model.Color
+                delegate: Item {
+
+                    Rectangle{
+                        color: model.Color
+                        anchors.fill: parent
+                        MouseArea{
+                            onClicked: colorDialog.open()
+                            anchors.fill: parent
+                        }
+                    }
+                    ColorDialog{
+                        id: colorDialog
+                        onAccepted: model.Color = currentColor
+                    }
                 }
+
+
+
+
+
+
+
             }
 
             TableViewColumn
