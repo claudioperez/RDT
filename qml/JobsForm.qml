@@ -15,28 +15,24 @@ Dialog {
     property RDT rdt
     property TextViewer textViewer
 
-    GridLayout{
+    SplitView{
         anchors.fill: parent
-        rows: 2
-        columns: 2
 
-        Text {
-            text: qsTr("Jobs Listing")
-            font.pointSize: 10
-        }
 
-        Text {
-            text: qsTr("Job Details")
-            font.pointSize: 10
 
-        }
+        ColumnLayout{
+            Layout.minimumWidth: 600
 
-        TableView{
+            Text {
+                text: qsTr("Jobs Listing")
+                font.pointSize: 10
+            }
+
+            TableView{
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
             id: jobslistView
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
 
             onRowCountChanged:
             {
@@ -87,13 +83,23 @@ Dialog {
                 width: 250
             }
         }
+        }
 
-
-        TreeView
+        ColumnLayout
         {
+
+            Text {
+                text: qsTr("Job Details")
+                font.pointSize: 10
+
+            }
+
+            TreeView
+            {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
             model: rdt.jobDetails
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+
 
 
             onModelChanged: {
@@ -177,6 +183,7 @@ Dialog {
                 }
 
             }
+        }
         }
     }
 }

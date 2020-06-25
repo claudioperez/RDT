@@ -62,7 +62,7 @@ ApplicationWindow {
                     text: "&Manage"
                     onTriggered: {
                         layersForm.open()
-                        layersForm.model = rdt.model.layers
+                        layersForm.layersModel = rdt.model.layers
                         layersForm.rendererModel = rdt.model.renderer
                     }
                 }
@@ -112,6 +112,9 @@ ApplicationWindow {
 
     LoginForm{
         id: loginForm
+        username: rdt.model.username()
+        password: rdt.model.password()
+
         onAccepted: rdt.model.login(loginForm.username, loginForm.password)
     }
 

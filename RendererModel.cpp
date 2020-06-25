@@ -40,7 +40,9 @@ QVariant RendererModel::data(const QModelIndex &index, int role) const
         case RendererRoles::Color:
             return reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->color();
         case RendererRoles::Shape:
-            return QVariant::fromValue(reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->style());
+            return static_cast<int>(reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->style());
+        case RendererRoles::Size:
+            return reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->size();
     }
 
 
@@ -94,9 +96,15 @@ bool RendererModel::setData(const QModelIndex &index, const QVariant &value, int
             reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->setColor(value.value<QColor>());
             break;
         }
+        case RendererRoles::Size:
+        {
+            reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->setSize(value.toFloat());
+            break;
+        }
         case RendererRoles::Shape:
         {
-            reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->setStyle(value.value<Esri::ArcGISRuntime::SimpleMarkerSymbolStyle>());
+            reinterpret_cast<Esri::ArcGISRuntime::SimpleMarkerSymbol*>(m_renderer->classBreaks()->at(index.row())->symbol())->setStyle(
+                        static_cast<Esri::ArcGISRuntime::SimpleMarkerSymbolStyle>(value.toInt()));
             break;
         }
     }
