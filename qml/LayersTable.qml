@@ -13,7 +13,7 @@ Dialog {
     title: "Manage Layers"
     standardButtons: Dialog.Ok  | Dialog.Cancel
 
-    property alias model: layersListView.model
+    property alias layersModel: layersListView.model
     property alias rendererModel: rendererListView.model
 
     GridLayout{
@@ -215,8 +215,41 @@ Dialog {
             {
                 title: "Shape"
                 movable: false
-                width: 50
-                role: Shape
+                width: 100
+                delegate:  RowLayout {
+                    property var shapeModel: model
+                    ComboBox {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.margins: 1
+
+
+                        model: ListModel {
+                            ListElement { text: "Circle"}
+                            ListElement { text: "Cross"}
+                            ListElement { text: "Diamond"}
+                            ListElement { text: "Square"}
+                            ListElement { text: "Triangle"}
+                            ListElement { text: "X"}
+
+                        }
+
+
+                        currentIndex:
+                        {
+                            if(shapeModel)
+                                return shapeModel.Shape
+                            else
+                                return 0
+                        }
+
+                        onCurrentIndexChanged:
+                        {
+                            if(shapeModel && shapeModel.Shape !== undefined && shapeModel.Shape !== currentIndex)
+                                shapeModel.Shape = currentIndex
+                        }
+                    }
+                }
 
             }
         }

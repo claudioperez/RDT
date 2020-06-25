@@ -62,7 +62,7 @@ ApplicationWindow {
                     text: "&Manage"
                     onTriggered: {
                         layersForm.open()
-                        layersForm.model = rdt.model.layers
+                        layersForm.layersModel = rdt.model.layers
                         layersForm.rendererModel = rdt.model.renderer
                     }
                 }
