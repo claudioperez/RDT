@@ -26,6 +26,7 @@
 #include "QDir"
 #include <QUrl>
 #include <QThread>
+#include <QSettings>
 
 using namespace Esri::ArcGISRuntime;
 
@@ -233,6 +234,18 @@ void RDT::setRenderer(int index)
     auto table = reinterpret_cast<FeatureCollectionTable*>(layer->featureCollection()->tables()->at(0));
     m_rendererModel->setRenderer(reinterpret_cast<ClassBreaksRenderer*>(table->renderer()));
     emit rendererChanged();
+}
+
+QString RDT::username()
+{
+    QSettings settings("SimCenter", "Common");
+    return settings.value("loginAgave", "").toString();
+}
+
+QString RDT::password()
+{
+    QSettings settings("SimCenter", "Common");
+    return settings.value("passwordAgave", "").toString();
 }
 
 MapQuickView* RDT::mapView() const

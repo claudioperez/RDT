@@ -112,6 +112,9 @@ ApplicationWindow {
 
     LoginForm{
         id: loginForm
+        username: rdt.model.username()
+        password: rdt.model.password()
+
         onAccepted: rdt.model.login(loginForm.username, loginForm.password)
     }
 

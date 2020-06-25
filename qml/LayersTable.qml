@@ -7,7 +7,7 @@ import SimCenter.RDT 1.0
 Dialog {
     property RDT rdt
     height: 360
-    width: 960
+    width: 1280
 
 
     title: "Manage Layers"
@@ -16,15 +16,13 @@ Dialog {
     property alias layersModel: layersListView.model
     property alias rendererModel: rendererListView.model
 
-    GridLayout{
+    ColumnLayout{
         anchors.fill: parent
-        columns: 2
 
         ToolBar
         {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 25
-                Layout.columnSpan: 2
 
                 Row
                 {
@@ -63,81 +61,86 @@ Dialog {
                 }
         }
 
-        TableView
-        {
-            id: layersListView
+        SplitView{
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            onClicked:
+            TableView
             {
-                console.log(currentRow)
-                rdt.setRenderer(currentRow)
-            }
-            TableViewColumn
-            {
-                title: "Name"
-                role: "name"
-                movable: false
-                width: 80
-            }
+                id: layersListView
+                Layout.minimumWidth: 420
+                Layout.preferredWidth: 500
 
 
-            TableViewColumn
-            {
-                title: "description"
-                role: "description"
+                onClicked:
+                {
+                    console.log(currentRow)
+                    rdt.setRenderer(currentRow)
+                }
+                TableViewColumn
+                {
+                    title: "Name"
+                    role: "name"
+                    movable: false
+                    width: 80
+                }
 
-                movable: false
-                width: 100
 
-            }
+                TableViewColumn
+                {
+                    title: "description"
+                    role: "description"
 
-            TableViewColumn
-            {
-                title: "Visible"
-                movable: false
-                width: 60
-                delegate: CheckBox {
-                    checked: model.layerVisible
-                    onCheckedChanged: model.layerVisible = checked
+                    movable: false
+                    width: 100
+
+                }
+
+                TableViewColumn
+                {
+                    title: "Visible"
+                    movable: false
+                    width: 60
+                    delegate: CheckBox {
+                        anchors.centerIn: parent
+                        checked: model.layerVisible
+                        onCheckedChanged: model.layerVisible = checked
+                    }
+
+                }
+
+                TableViewColumn
+                {
+                    title: "Layer Id"
+                    movable: false
+                    width: 80
+                    delegate: Text {
+                        text: model.layerId
+                    }
+                }
+
+                TableViewColumn
+                {
+                    title: "Opacity"
+                    movable: false
+                    width: 80
+                    delegate: Slider {
+                        minimumValue: 0.0
+                        maximumValue: 1.0
+                        stepSize: 0.05
+
+                        value: model.layerOpacity
+                        onValueChanged: model.layerOpacity = value
+                    }
                 }
 
             }
 
-            TableViewColumn
+
+            TableView
             {
-                title: "Layer Id"
-                movable: false
-                width: 60
-                delegate: Text {
-                    text: model.layerId
-                }
-            }
 
-            TableViewColumn
-            {
-                title: "Opacity"
-                movable: false
-                width: 50
-                delegate: Slider {
-                    minimumValue: 0.0
-                    maximumValue: 1.0
-                    stepSize: 0.05
-
-                    value: model.layerOpacity
-                    onValueChanged: model.layerOpacity = value
-                }
-            }
-
-        }
-
-
-        TableView
-        {
-            Layout.fillHeight:  true
-            Layout.fillWidth: true
 
             id: rendererListView
 
@@ -169,7 +172,7 @@ Dialog {
             {
                 title: "Minimum"
                 movable: false
-                width: 50
+                width: 80
                 delegate: TextInput
                 {
                     text: model.Minimum
@@ -181,7 +184,7 @@ Dialog {
             {
                 title: "Maximum"
                 movable: false
-                width: 50
+                width: 80
                 delegate: TextInput
                 {
                     text: model.Maximum
@@ -265,6 +268,6 @@ Dialog {
                 }
             }
         }
-
+        }
     }
 }

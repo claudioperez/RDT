@@ -62,6 +62,8 @@ public:
     Q_INVOKABLE void moveLayerUp(int index);
     Q_INVOKABLE void moveLayerDown(int index);
     Q_INVOKABLE void setRenderer(int index);
+    Q_INVOKABLE QString username();
+    Q_INVOKABLE QString password();
 
 signals:
     void mapViewChanged();
