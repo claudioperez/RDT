@@ -252,6 +252,18 @@ Dialog {
                 }
 
             }
+
+            TableViewColumn
+            {
+                title: "Size"
+                movable: false
+                width: 50
+                delegate: TextInput
+                {
+                    text: model.Size
+                    onEditingFinished: model.Size = parseFloat(text)
+                }
+            }
         }
 
     }
