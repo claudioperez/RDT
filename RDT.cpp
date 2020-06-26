@@ -142,13 +142,13 @@ bool RDT::isLoggedIn()
 
 void RDT::login(QString username, QString password)
 {
-    client->loginCall(username, password);
+    emit startLogin(username, password);
 }
 
 void RDT::refreshJobs()
 {
     if(client->isLoggedIn())
-        client->getJobListCall("", "rWHALE-1*");
+        emit startJobListUpdate("", "rWHALE-1*");
 }
 
 void RDT::getJobDetails(int index)
@@ -327,6 +327,10 @@ void RDT::setupConnections()
         m_loggedIn = !loggedOut;
         emit loggedInChanged();
     });
+
+    connect(this, &RDT::startLogin, client, &AgaveCurl::loginCall);
+
+    connect(this, &RDT::startJobListUpdate, client, &AgaveCurl::getJobListCall);
 }
 
 bool RDT::mapDrawing() const
