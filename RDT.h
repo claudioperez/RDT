@@ -77,6 +77,7 @@ signals:
     void rendererChanged();
     void startLogin(QString username, QString password);
     void startJobListUpdate(QString matchingName, QString appIdFilter);
+    void startJobDetailsUpdate(QString jobId);
 
 private:
     void setMapView(Esri::ArcGISRuntime::MapQuickView* mapView);

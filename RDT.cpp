@@ -154,7 +154,7 @@ void RDT::refreshJobs()
 void RDT::getJobDetails(int index)
 {
     auto jobId = m_jobsList->getJobId(index);
-    client->getJobDetailsCall(jobId);
+    emit startJobDetailsUpdate(jobId);
     return;
 }
 
@@ -331,6 +331,8 @@ void RDT::setupConnections()
     connect(this, &RDT::startLogin, client, &AgaveCurl::loginCall);
 
     connect(this, &RDT::startJobListUpdate, client, &AgaveCurl::getJobListCall);
+
+    connect(this, &RDT::startJobDetailsUpdate, client, &AgaveCurl::getJobDetailsCall);
 }
 
 bool RDT::mapDrawing() const
