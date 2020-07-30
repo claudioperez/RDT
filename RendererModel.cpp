@@ -116,7 +116,7 @@ bool RendererModel::setData(const QModelIndex &index, const QVariant &value, int
 Qt::ItemFlags RendererModel::flags(const QModelIndex &index) const
 {
     if (index.isValid())
-        return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
+        return QAbstractListModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsEditable;
 
     return QAbstractListModel::flags(index);
 }

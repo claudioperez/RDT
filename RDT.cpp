@@ -27,6 +27,8 @@
 #include <QUrl>
 #include <QThread>
 #include <QSettings>
+#include <PolylineBuilder.h>
+#include <Polyline.h>
 
 using namespace Esri::ArcGISRuntime;
 
@@ -63,9 +65,16 @@ RDT::~RDT()
 }
 
 void RDT::addCSVLayer(QString filePath)
-{
+{        
     if (filePath.startsWith("file:///"))
         filePath = filePath.remove("file:///");
+
+    if(filePath.endsWith("values.txt"))
+    {
+        addNetwork(filePath);
+        return;
+    }
+
     QFile csvFile(filePath);
     csvFile.open(QIODevice::ReadOnly);
     auto header = csvFile.readLine();
@@ -142,19 +151,19 @@ bool RDT::isLoggedIn()
 
 void RDT::login(QString username, QString password)
 {
-    client->loginCall(username, password);
+    emit startLogin(username, password);
 }
 
 void RDT::refreshJobs()
 {
     if(client->isLoggedIn())
-        client->getJobListCall("", "rWHALE-1*");
+        emit startJobListUpdate("", "rWHALE-1*");
 }
 
 void RDT::getJobDetails(int index)
 {
     auto jobId = m_jobsList->getJobId(index);
-    client->getJobDetailsCall(jobId);
+    emit startJobDetailsUpdate(jobId);
     return;
 }
 
@@ -248,6 +257,105 @@ QString RDT::password()
     return settings.value("passwordAgave", "").toString();
 }
 
+void RDT::addNetwork(QString filePath)
+{
+
+    QFile valuesFile(filePath);
+    valuesFile.open(QIODevice::ReadOnly);
+    auto allValues = valuesFile.readAll();
+    valuesFile.close();
+    auto values = allValues.split(' ');
+    qDebug() << values.count();
+
+    filePath = filePath.replace("values.txt", "seg_start.txt");
+    QFile startFile(filePath);
+    startFile.open(QIODevice::ReadOnly);
+    QList<QPair<double, double>> startPoints;
+    while(!startFile.atEnd())
+    {
+        auto startLine = startFile.readLine();
+        startPoints.push_back(qMakePair(startLine.split(' ')[0].toDouble(), startLine.split(' ')[1].toDouble()));
+    }
+
+    qDebug() << startPoints.count();
+
+    filePath = filePath.replace("seg_start.txt", "seg_end.txt");
+    QFile endFile(filePath);
+    endFile.open(QIODevice::ReadOnly);
+    QList<QPair<double, double>> endPoints;
+    while(!endFile.atEnd())
+    {
+        auto endLine = endFile.readLine();
+        endPoints.push_back(qMakePair(endLine.split(' ')[0].toDouble(), endLine.split(' ')[1].toDouble()));
+    }
+
+    qDebug() << endPoints.count();
+
+
+    QList<Field> fields;
+    auto featureCollection = new FeatureCollection();
+    fields.append(Field::createDouble("RepairRate", "Repair Rate"));
+
+    auto featureCollectionTable = new FeatureCollectionTable(fields, GeometryType::Polyline, SpatialReference::wgs84());
+
+    QList<Feature*> features;
+
+    for(int i = 0; i < startPoints.count(); i++ )
+    {
+        auto feature = featureCollectionTable->createFeature();
+
+        feature->attributes()->replaceAttribute("RepairRate", values[i].toDouble());
+
+        PolylineBuilder* builder = new PolylineBuilder(SpatialReference::wgs84(), this);
+        builder->addPoint(startPoints[i].first, startPoints[i].second);
+        builder->addPoint(endPoints[i].first, endPoints[i].second);
+        Esri::ArcGISRuntime::Polyline singleLine = builder->toPolyline();
+
+        feature->setGeometry(singleLine);
+        features.append(feature);
+    }
+
+    featureCollectionTable->addFeatures(features);
+    QList<ClassBreak*> classBreaks;
+
+    auto line1 = new SimpleLineSymbol(SimpleLineSymbolStyle::Solid, QColor(254, 229, 217), 4.0, this);
+    auto classbreak1 = new ClassBreak("Very Low Repair Rate", "Repair Rate less than 1e-3", 0.0, 1e-3, line1);
+    classBreaks.append(classbreak1);
+
+    auto line2 = new SimpleLineSymbol(SimpleLineSymbolStyle::Solid, QColor(252, 187, 161), 4.0, this);
+    auto classbreak2 = new ClassBreak("Low Repair Rate", "Repair Rate less than 0.01", 1e-3, 1e-2, line2);
+    classBreaks.append(classbreak2);
+
+    auto line3 = new SimpleLineSymbol(SimpleLineSymbolStyle::Solid, QColor(252, 146, 114), 4.0, this);
+    auto classbreak3 = new ClassBreak("Very Moderate Repair Rate", "Repair Rate less than 0.1", 1e-2, 1e-1, line3);
+    classBreaks.append(classbreak3);
+
+    auto line4 = new SimpleLineSymbol(SimpleLineSymbolStyle::Solid, QColor(251, 106, 74), 4.0, this);
+    auto classbreak4 = new ClassBreak("Moderate Repair Rate", "Repair Rate less than 1", 1e-1, 1e0, line4);
+    classBreaks.append(classbreak4);
+
+    auto line5 = new SimpleLineSymbol(SimpleLineSymbolStyle::Solid, QColor(222, 45, 38), 4.0, this);
+    auto classbreak5 = new ClassBreak("High Repair Rate", "Repair Rate less than 10", 1e0, 1e1, line5);
+    classBreaks.append(classbreak5);
+
+    auto line6 = new SimpleLineSymbol(SimpleLineSymbolStyle::Solid, QColor(165, 15, 21), 4.0, this);
+    auto classbreak6 = new ClassBreak("Very High Repair Rate", "Repair Rate less than 1e10", 1e0, 1e10, line6);
+    classBreaks.append(classbreak6);
+
+    auto renderer = new ClassBreaksRenderer("RepairRate", classBreaks);
+    featureCollectionTable->setRenderer(renderer);
+
+
+    featureCollection->tables()->append(featureCollectionTable);
+    auto csvLayer = new FeatureCollectionLayer(featureCollection);
+    m_map->operationalLayers()->append(csvLayer);
+
+    Viewpoint bayArea(37.8272, -122.2913, 500000.0);
+    m_mapView->setViewpoint(bayArea);
+
+}
+
+
 MapQuickView* RDT::mapView() const
 {
     return m_mapView;
@@ -327,6 +435,12 @@ void RDT::setupConnections()
         m_loggedIn = !loggedOut;
         emit loggedInChanged();
     });
+
+    connect(this, &RDT::startLogin, client, &AgaveCurl::loginCall);
+
+    connect(this, &RDT::startJobListUpdate, client, &AgaveCurl::getJobListCall);
+
+    connect(this, &RDT::startJobDetailsUpdate, client, &AgaveCurl::getJobDetailsCall);
 }
 
 bool RDT::mapDrawing() const

@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE void setRenderer(int index);
     Q_INVOKABLE QString username();
     Q_INVOKABLE QString password();
+    Q_INVOKABLE void addNetwork(QString filePath);
 
 signals:
     void mapViewChanged();
@@ -75,6 +76,9 @@ signals:
     void jobsListChanged();
     void jobDetailsChanged();
     void rendererChanged();
+    void startLogin(QString username, QString password);
+    void startJobListUpdate(QString matchingName, QString appIdFilter);
+    void startJobDetailsUpdate(QString jobId);
 
 private:
     void setMapView(Esri::ArcGISRuntime::MapQuickView* mapView);

@@ -1,6 +1,6 @@
 from conans import ConanFile
 
-class WEUQ(ConanFile):
+class RDT(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "qmake"
     requires = "SimCenterCommonQt/0.1.5@simcenter/testing"
