@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE void setRenderer(int index);
     Q_INVOKABLE QString username();
     Q_INVOKABLE QString password();
+    Q_INVOKABLE void addNetwork(QString filePath);
 
 signals:
     void mapViewChanged();

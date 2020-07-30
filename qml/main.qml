@@ -57,6 +57,13 @@ ApplicationWindow {
                         text: "CS&V"
                         onTriggered: fileDialog.open()
                     }
+                    MenuItem {
+                        text: "&Network"
+                        onTriggered: {
+                            fileDialog.selectNameFilter("All files (*)");
+                            fileDialog.open()
+                        }
+                    }
                 }
                 MenuItem{
                     text: "&Manage"
@@ -141,7 +148,6 @@ ApplicationWindow {
 
     FileDialog {
         id: fileDialog
-        folder: "file:///C:/SandBox/Anchorage/GIS/"
         title: "Please select a layer to add to map"
         nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
         onAccepted: {

@@ -14,11 +14,12 @@
 TEMPLATE = app
 
 CONFIG += c++14
+CONFIG += force_debug_info.
 
 include($$PWD/ConanHelper.pri)
 
 # additional modules are pulled in via arcgisruntime.pri
-QT += opengl qml quick
+QT += opengl qml quick sensors positioning multimedia
 
 win32:LIBS += Advapi32.lib
 
