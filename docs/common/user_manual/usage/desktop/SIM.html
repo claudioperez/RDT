@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.3. SIM: Structural Model &mdash; Regional D* T* Application  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="3.4. EVT: Earthquake Events" href="earthquake/earthquakeEvents.html" />
+    <link rel="prev" title="3.2. GI: General Information" href="GI.html" />
+<script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+<style media="screen">.vega-actions a {margin-right: 5px;}</style>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F2F2F2" >
+          
+
+          
+            <a href="../../../../index.html">
+          
+
+          
+            
+            <img src="../../../../_static/RDT-Logo-grey2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../ack.html">1. Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/desktop/installation.html">2. Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="usage.html">3. User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="UQ.html">3.1. UQ: Uncertainty Quantification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GI.html">3.2. GI: General Information</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.3. SIM: Structural Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-degrees-of-freedom-mdof">3.3.1. Multiple Degrees of Freedom (MDOF)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">3.3.2. OpenSees</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="earthquake/earthquakeEvents.html">3.4. EVT: Earthquake Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FEM.html">3.5. FEM: Finite Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RV.html">3.6. RV: Random Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/desktop/troubleshooting.html">4. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/desktop/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">6. Bugs &amp; Feature Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">7. Copyright and License</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Testbeds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/sf_bay_area/index.html">1. San Francisco, CA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/atlantic_city/index.html">2. Atlantic City, NJ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/anchorage/index.html">3. Anchorage, AK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/memphis/index.html">4. Memphis, TN</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_manual/desktop/technical_manual.html">1. Technical Manual</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/how_to_build/desktop/how_to_build.html">1. How to Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/architecture/desktop/architecture.html">2. Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/how_to_extend/desktop/how_to_extend.html">3. How to Extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/verification/desktop/verification.html">4. Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/coding_style/desktop/coding_style.html">5. Coding Style</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Regional D* T* Application</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="usage.html">3. User Guide</a> &raquo;</li>
+        
+      <li>3.3. SIM: Structural Model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../../_sources/common/user_manual/usage/desktop/SIM.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sim-structural-model">
+<h1>3.3. SIM: Structural Model<a class="headerlink" href="#sim-structural-model" title="Permalink to this headline">¶</a></h1>
+<p>The user here defines the structural system of the building. The  structural system is the part of the building provided to resist the gravity loads and those loads arising from the natural hazard. There are a number of backend applications provided for this part of the workflow, each responsible for defining the structural analysis model. The user can select the application to use from the drop-down menu at the top of this panel. As the user switches between applications, the input panel changes to reflect the inputs each particular application requires. At present, there are two backend applications available.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#multiple-degrees-of-freedom-mdof" id="id3">Multiple Degrees of Freedom (MDOF)</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id4">OpenSees</a></p></li>
+</ul>
+</div>
+<div class="section" id="multiple-degrees-of-freedom-mdof">
+<h2><a class="toc-backref" href="#id3">3.3.1. Multiple Degrees of Freedom (MDOF)</a><a class="headerlink" href="#multiple-degrees-of-freedom-mdof" title="Permalink to this headline">¶</a></h2>
+<p>This panel is provided for users to quickly create simple shear models of a building. The panel, as shown in <a class="reference internal" href="#fig-mdof"><span class="std std-numref">Fig. 3.3.1</span></a> is divided into 3 frames:</p>
+<ol class="arabic simple">
+<li><p>The top left frame allows the user to specify the number of stories and properties that are constant for every floor and story in the building. The following properties are available: floor weight, story height, torsional stiffness, initial stiffness, yield strength, and hardening ratio for each direction in each story. The user has the option of specifying values for eccentricity of mass in <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> directions, and eccentricities for the location of the response quantities. Here, the one and two directions are orthogonal <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> axes in plan view.</p></li>
+<li><p>The lower left frame allows the user to override the structural parameters above for individual floors and stories.</p></li>
+<li><p>The frame on the right is a graphical widget showing the current building. When entering data into the lower left frame, the stories corresponding to the data being modified are highlighted in red.</p></li>
+</ol>
+<div class="align-center figure" id="id2">
+<span id="fig-mdof"></span><img alt="../../../../_images/mdof_general.png" src="../../../../_images/mdof_general.png" />
+<p class="caption"><span class="caption-number">Fig. 3.3.1 </span><span class="caption-text">Multiple degrees of freedom (MDOF).</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Random Variables: Random variables can be created by the user if they enter a valid string instead of a number in the entry fields for any entry except for the <em>Number of floors</em>. The variable name entered will appear as a random variable in the <strong>UQ</strong> tab; it is there that the user must specify the distribution associated with the random variable.</p>
+<blockquote>
+<div><p>MDOF or Shear Building Model</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">`Random</span> <span class="pre">Variables`</span></code>: Random Variables can be created by the user if they enter a valid string instead of a number in the entry fields for any entry except for the <em>Number of floors</em>. The variable name entered will appear as a Random Variable in the <strong>UQ</strong> tab; it is there that the user must specify the distribution associated with the Random Variable.</p>
+</div>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2><a class="toc-backref" href="#id4">3.3.2. OpenSees</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>This panel is for users who have an existing <code class="docutils literal notranslate"><span class="pre">OpenSees</span></code> model of a building that performs a gravity analysis and now they wish to subject that building model to one of the <strong>EVT</strong> options provided. The input panel for this option is shown in <a class="reference internal" href="#fig-figure3"><span class="std std-numref">Fig. 3.3.2</span></a>. Users need to provide three pieces of information:</p>
+<ol class="arabic simple">
+<li><p>Main OpenSees Script: The main script that contains the building model. This script should build a model and perform any gravity analysis of the building that is required before the event is applied.</p></li>
+<li><p>Response Nodes: A list of node numbers that define a column line of interest for which the responses will be determined. The column nodes should be in order from ground floor to roof. The EDP workflow application <code class="docutils literal notranslate"><span class="pre">\softwareSwitch{PBE}{}{,</span> <span class="pre">described</span> <span class="pre">in</span> <span class="pre">`EDP:</span> <span class="pre">To</span> <span class="pre">be</span> <span class="pre">added`_,}</span></code> uses this information to determine nodes at which displacement, acceleration, and story drifts are calculated.</p></li>
+<li><p>An entry for the dimension of the model (i.e., 2D or 3D). This information is used when <code class="docutils literal notranslate"><span class="pre">\softwareSwitch{WE-UQ}{wind</span> <span class="pre">loads}{ground</span> <span class="pre">motions}</span></code> are applied.</p></li>
+<li><p>Entry for the number of degrees of freedom at each node in the model.</p></li>
+</ol>
+<div class="align-center figure" id="fig-figure3">
+<img alt="../../../../_images/openSees_gen.png" src="../../../../_images/openSees_gen.png" />
+</div>
+<p>Random Variables: In <code class="docutils literal notranslate"><span class="pre">OpenSees</span></code> there is an option to set variables to have certain values using the <code class="docutils literal notranslate"><span class="pre">pset</span></code> command, e.g <code class="docutils literal notranslate"><span class="pre">pset</span> <span class="pre">a</span> <span class="pre">5.0</span></code> will set the variable a to have a value 5 in the <code class="docutils literal notranslate"><span class="pre">OpenSees</span></code> script. In Regional D* T* Application, any variable found in the main script to be set using the <code class="docutils literal notranslate"><span class="pre">pset</span></code> command will be assumed to be a Random Variable. As such, when a new main script is loaded all variables set with <code class="docutils literal notranslate"><span class="pre">pset</span></code> will appear as Random Variables in the <strong>UQ</strong> tab.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">`Random</span> <span class="pre">Variables`</span></code>: In <code class="docutils literal notranslate"><span class="pre">OpenSees</span></code> there is an option to set variables to have certain values using the <code class="docutils literal notranslate"><span class="pre">pset</span></code> command, e.g <code class="docutils literal notranslate"><span class="pre">pset</span> <span class="pre">a</span> <span class="pre">5.0</span></code> will set the variable a to have a value 5 in the <code class="docutils literal notranslate"><span class="pre">OpenSees</span></code> script. In <code class="docutils literal notranslate"><span class="pre">\getsoftwarename{}</span></code>, any variable found in the main script to be set using the <code class="docutils literal notranslate"><span class="pre">pset</span></code> command will be assumed to be a Random Variable. As such, when a new main script is loaded all variables set with <code class="docutils literal notranslate"><span class="pre">pset</span></code> will appear as Random Variables in the <strong>UQ</strong> tab.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Regents of the University of California
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '...', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>

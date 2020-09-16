@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. How to Build &mdash; Regional D* T* Application  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="2. Software Architecture" href="../../architecture/desktop/architecture.html" />
+    <link rel="prev" title="1.1. Dakota Methods" href="../../../technical_manual/desktop/uqTechnical.html" />
+<script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+<style media="screen">.vega-actions a {margin-right: 5px;}</style>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F2F2F2" >
+          
+
+          
+            <a href="../../../../index.html">
+          
+
+          
+            
+            <img src="../../../../_static/RDT-Logo-grey2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/ack.html">1. Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation/desktop/installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/usage/desktop/usage.html">3. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/troubleshooting/desktop/troubleshooting.html">4. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/examples/desktop/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/bugs.html">6. Bugs &amp; Feature Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/license.html">7. Copyright and License</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Testbeds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/sf_bay_area/index.html">1. San Francisco, CA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/atlantic_city/index.html">2. Atlantic City, NJ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/anchorage/index.html">3. Anchorage, AK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/memphis/index.html">4. Memphis, TN</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_manual/desktop/technical_manual.html">1. Technical Manual</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Manual</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. How to Build</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-dependencies">1.1. Install Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-the-workflow-application-files">1.2. Build the Workflow Application Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-on-windows">1.2.1. Build on Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-on-macos">1.2.2. Build on MacOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-on-unix">1.2.3. Build on Unix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#build-the-user-interface">1.3. Build the User Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-using-the-qt-creator-recommended">1.3.1. Build using the Qt Creator (Recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-using-the-terminal">1.3.2. Build using the terminal</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#set-the-user-interface-preferences">1.4. Set the User Interface Preferences</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/desktop/architecture.html">2. Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_extend/desktop/how_to_extend.html">3. How to Extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../verification/desktop/verification.html">4. Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coding_style/desktop/coding_style.html">5. Coding Style</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Regional D* T* Application</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>1. How to Build</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../../_sources/common/developer_manual/how_to_build/desktop/how_to_build.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-build">
+<span id="lblhowtobuild"></span><h1>1. How to Build<a class="headerlink" href="#how-to-build" title="Permalink to this headline">¶</a></h1>
+<p>This page outlines steps to preparing the workflow applications, or “Backend Applications”, on your local desktop.</p>
+<div class="section" id="install-dependencies">
+<h2>1.1. Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>First, ensure the following dependencies are installed:</p>
+<ul class="simple">
+<li><p><strong>C++11 compliant compiler</strong>: many of the workflow applications included use C++11 features, consequently they may need a newer C++11 compliant compiler. In these instructions, MSVC in <a class="reference external" href="https://visualstudio.microsoft.com/vs/">Visual Studio (Community edition)</a> is used.</p></li>
+<li><p><strong>OpenSees</strong>: The workflow applications require an installation of <a class="reference external" href="http://opensees.berkeley.edu/">OpenSees</a> to carry out structural analysis using the finite element method.</p></li>
+<li><p><strong>DAKOTA</strong>: The workflow applications require an installation of <a class="reference external" href="https://dakota.sandia.gov/">DAKOTA</a> to handle and propagate the uncertainties defined in the input files for the workflow applications.</p></li>
+<li><p><strong>Python</strong>: The workflow requires Python 3.6.</p></li>
+<li><p><strong>Conan</strong>: This repository uses <a class="reference external" href="https://conan.io/">Conan</a> for dependency management. Conan is a python library and can be installed using the following <a class="reference external" href="https://docs.conan.io/en/latest/installation.html">instructions</a>. Version 1.25 or later is recommended.</p></li>
+<li><p><strong>CMake</strong>: This repository uses <a class="reference external" href="https://cmake.org/download/">CMake</a> for managing the build process. Version 3.15 or later is recommended.</p></li>
+<li><p><strong>Qt Creator</strong>: The Qt framework is only necessary if you choose to build the user interface for the RDT software. <a class="reference external" href="https://www.qt.io/download">Qt Creator</a> is free for open source developers. Version 5.10 or later is required, and version 5.12 or later is recommended.</p></li>
+</ul>
+</div>
+<div class="section" id="build-the-workflow-application-files">
+<h2>1.2. Build the Workflow Application Files<a class="headerlink" href="#build-the-workflow-application-files" title="Permalink to this headline">¶</a></h2>
+<p>Instructions to build the workflow applications on your local desktop depend on your operating system.</p>
+<div class="section" id="build-on-windows">
+<h3>1.2.1. Build on Windows<a class="headerlink" href="#build-on-windows" title="Permalink to this headline">¶</a></h3>
+<p>For Windows systems, the steps to building the workflow application are as follows:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p><strong>Obtain the source code:</strong> Clone the SimCenterBackendApplications repository from <a class="reference external" href="https://github.com/NHERI-SimCenter/SimCenterBackendApplications">Github</a>. You can do that by using your preferred Git client/GUI or by using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> command in the terminal:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/NHERI-SimCenter/SimCenterBackendApplications</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Set up the development environment:</strong> Add Conan <a class="reference external" href="https://bintray.com/nheri-simcenter/simcenter">SimCenter</a> and  <a class="reference external" href="https://bintray.com/bincrafters/public-conan">BinCrafters</a> repositories to the Conan remotes. You can add these remotes using the following commands in the terminal:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">simcenter</span> <span class="pre">https://api.bintray.com/conan/nheri-simcenter/simcenter</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">bincrafters</span> <span class="pre">https://api.bintray.com/conan/bincrafters/public-conan</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Configure your compiler:</strong> Check the default profile of your build environment using <code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">show</span> <span class="pre">default</span></code>. If the compiler name and compiler version are <em>not</em> listed, then you will need to select a specific compiler. For instance, on Windows using Visual Studio 2019, you can specify the compiler as follows:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">update</span> <span class="pre">settings.compiler=&quot;Visual</span> <span class="pre">Studio&quot;</span> <span class="pre">default</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">update</span> <span class="pre">settings.compiler.version=&quot;16&quot;</span> <span class="pre">default</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Create the build output directory:</strong> In the terminal, navigate into the “SimCenterBackendApplications” repository on your desktop. Create a new folder called “build” using the command <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">build</span></code>, then navigate into that folder using <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span></code>.</p></li>
+<li><p><strong>Install backend dependencies:</strong> You can install backend dependencies using Conan by running the command in the build output directory:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">install</span> <span class="pre">..</span> <span class="pre">--build</span> <span class="pre">missing</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Run CMake configuration:</strong> Run the command <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">..</span></code>. If it is necessary to specify a compiler for CMake, you may alternatively run <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">..</span> <span class="pre">-G</span> <span class="pre">&quot;Visual</span> <span class="pre">Studio</span> <span class="pre">16</span> <span class="pre">2019&quot;</span></code>.</p></li>
+<li><p><strong>Build the release version of the backend:</strong> When using an IDE like Visual Studio on Windows, the generated project can opened in the IDE and used to build the code. This function can also be done from the same terminal window using CMake by the command:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--config</span> <span class="pre">release</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Install the workflow applications folder:</strong> Run the command <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span> <span class="pre">.</span></code>. If the installation and build are successful, then you should find a folder called “applications” in the “SimCenterBackendApplications” repository which contains all the workflow application files.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="build-on-macos">
+<h3>1.2.2. Build on MacOS<a class="headerlink" href="#build-on-macos" title="Permalink to this headline">¶</a></h3>
+<p>For Mac systems, the steps to building the workflow application are as follows:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p><strong>Obtain the source code:</strong> Clone the RDT repository from <a class="reference external" href="https://github.com/NHERI-SimCenter/PBE">RDT Github page</a>. You can do that by using your preferred Git client/GUI or by using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> command in the terminal.</p></li>
+<li><p><strong>Set up the development environment:</strong> Add Conan <a class="reference external" href="https://bintray.com/nheri-simcenter/simcenter">SimCenter</a> and  <a class="reference external" href="https://bintray.com/bincrafters/public-conan">BinCrafters</a> repositories to the Conan remotes. You can add these remotes using the following commands in the terminal:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">simcenter</span> <span class="pre">https://api.bintray.com/conan/nheri-simcenter/simcenter</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">bincrafters</span> <span class="pre">https://api.bintray.com/conan/bincrafters/public-conan</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Configure your compiler:</strong> Check the default profile of your build environment using <code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">show</span> <span class="pre">default</span></code>. If the compiler name and compiler version are <em>not</em> listed, then you will need to select a specific compiler. For instance, on Windows using Visual Studio 2019, you can specify the compiler as follows:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">update</span> <span class="pre">settings.compiler=&quot;Visual</span> <span class="pre">Studio&quot;</span> <span class="pre">default</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">update</span> <span class="pre">settings.compiler.version=&quot;16&quot;</span> <span class="pre">default</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Create the build output directory:</strong> In the terminal, navigate into the “SimCenterBackendApplications” repository on your desktop. Create a new folder called “build” using the command <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">build</span></code>, then navigate into that folder using <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span></code>.</p></li>
+<li><p><strong>Install backend dependencies:</strong> You can install backend dependencies using Conan by running the command in the build output directory:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">install</span> <span class="pre">..</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Run CMake configuration:</strong> Run the command <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">..</span></code>. If it is necessary to specify a compiler for CMake, you may alternatively run <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">..</span> <span class="pre">-G</span> <span class="pre">&quot;Visual</span> <span class="pre">Studio</span> <span class="pre">16</span> <span class="pre">2019&quot;</span></code>.</p></li>
+<li><p><strong>Build the release version of the backend:</strong> When using an IDE like XCode on Mac, the generated project can opened in the IDE and used to build the code. This function can also be done from the same terminal window using CMake by the command:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--config</span> <span class="pre">release</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Install the workflow applications folder:</strong> Run the command <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span> <span class="pre">.</span></code>. If the installation and build are successful, then you should find a folder called “applications” in the “SimCenterBackendApplications” repository which contains all the workflow application files.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="build-on-unix">
+<h3>1.2.3. Build on Unix<a class="headerlink" href="#build-on-unix" title="Permalink to this headline">¶</a></h3>
+<p>For Unix systems, the steps to building the workflow application are as follows:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p><strong>Obtain the source code:</strong> Clone the RDT repository from <a class="reference external" href="https://github.com/NHERI-SimCenter/PBE">RDT Github page</a>. You can do that by using your preferred Git client/GUI or by using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> command in the terminal.</p></li>
+<li><p><strong>Set up the development environment:</strong> Add Conan <a class="reference external" href="https://bintray.com/nheri-simcenter/simcenter">SimCenter</a> and  <a class="reference external" href="https://bintray.com/bincrafters/public-conan">BinCrafters</a> repositories to the Conan remotes. You can add these remotes using the following commands in the terminal:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">simcenter</span> <span class="pre">https://api.bintray.com/conan/nheri-simcenter/simcenter</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">bincrafters</span> <span class="pre">https://api.bintray.com/conan/bincrafters/public-conan</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Configure your compiler:</strong> Check the default profile of your build environment using <code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">show</span> <span class="pre">default</span></code>. If the compiler name and compiler version are <em>not</em> listed, then you will need to select a specific compiler. For instance, on Windows using Visual Studio 2019, you can specify the compiler as follows:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">update</span> <span class="pre">settings.compiler=&quot;Visual</span> <span class="pre">Studio&quot;</span> <span class="pre">default</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">profile</span> <span class="pre">update</span> <span class="pre">settings.compiler.version=&quot;16&quot;</span> <span class="pre">default</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Create the build output directory:</strong> In the terminal, navigate into the “SimCenterBackendApplications” repository on your desktop. Create a new folder called “build” using the command <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">build</span></code>, then navigate into that folder using <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span></code>.</p></li>
+<li><p><strong>Install backend dependencies:</strong> You can install backend dependencies using Conan by running the command in the build output directory:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">conan</span> <span class="pre">install</span> <span class="pre">..</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>Run CMake configuration:</strong> Run the command <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">..</span></code>. If it is necessary to specify a compiler for CMake, you may alternatively run <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">..</span> <span class="pre">-G</span> <span class="pre">&quot;Visual</span> <span class="pre">Studio</span> <span class="pre">16</span> <span class="pre">2019&quot;</span></code>.</p></li>
+<li><p><strong>Build the release version of the backend:</strong> On Unix-based systems, building the backend can be achieved using the command <code class="docutils literal notranslate"><span class="pre">make</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">release</span></code>.</p></li>
+<li><p><strong>Install the workflow applications folder:</strong> Run the command <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span> <span class="pre">.</span></code>. If the installation and build are successful, then you should find a folder called “applications” in the “SimCenterBackendApplications” repository which contains all the workflow application files.</p></li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="build-the-user-interface">
+<h2>1.3. Build the User Interface<a class="headerlink" href="#build-the-user-interface" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="build-using-the-qt-creator-recommended">
+<h3>1.3.1. Build using the Qt Creator (Recommended)<a class="headerlink" href="#build-using-the-qt-creator-recommended" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Start Qt Creator, then open the RDT.pro file located in the RDT directory that was downloaded in the previous steps.</p></li>
+<li><p>Setup the development kit in Qt Creator. This is usually done by selecting the Qt version, compiler and configuration and following the onscreen dialog.</p></li>
+<li><p>Build the application and run it in Qt Creator IDE by using the <strong>Run</strong> button. This can be done using the keyboard shortcut <code class="docutils literal notranslate"><span class="pre">F5</span></code> to build and start the tool.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="build-using-the-terminal">
+<h3>1.3.2. Build using the terminal<a class="headerlink" href="#build-using-the-terminal" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ol class="arabic">
+<li><p>First, create a build output directory. This can be done in the terminal using the command <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">build</span></code>.</p></li>
+<li><p>Go into the build output directory and run QMake to Configure the project and create make files. This can be done by using the command:</p>
+<blockquote>
+<div><pre class="literal-block">qmake ../RDT.pro</pre>
+</div></blockquote>
+</li>
+<li><p>Build the project by using the command <code class="docutils literal notranslate"><span class="pre">make</span></code> on Unix like systems. On Windows, you can either use <code class="docutils literal notranslate"><span class="pre">nmake</span></code> or <code class="docutils literal notranslate"><span class="pre">jom</span></code> to build in parallel. Once built, you can now run the tool executable.</p></li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="set-the-user-interface-preferences">
+<h2>1.4. Set the User Interface Preferences<a class="headerlink" href="#set-the-user-interface-preferences" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Once built, Open the RDT tool, then click on file -&gt; preferences and set the applications directory entry to point to the applications folder that the build process created for BackendApplications.</p>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Regents of the University of California
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '...', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>
