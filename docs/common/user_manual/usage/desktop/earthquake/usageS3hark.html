@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.4.5. Site Response Analysis &mdash; Regional D* T* Application  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="3.5. FEM: Finite Element Method" href="../FEM.html" />
+    <link rel="prev" title="3.4.4. Multiple Existing" href="multipleExisting.html" />
+<script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+<style media="screen">.vega-actions a {margin-right: 5px;}</style>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F2F2F2" >
+          
+
+          
+            <a href="../../../../../index.html">
+          
+
+          
+            
+            <img src="../../../../../_static/RDT-Logo-grey2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../ack.html">1. Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/desktop/installation.html">2. Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../usage.html">3. User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../UQ.html">3.1. UQ: Uncertainty Quantification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GI.html">3.2. GI: General Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../SIM.html">3.3. SIM: Structural Model</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="earthquakeEvents.html">3.4. EVT: Earthquake Events</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="stochasticGroundMotion.html">3.4.1. Stochastic Ground Motions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peerNGA.html">3.4.2. PEER NGA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multiplePEER.html">3.4.3. Multiple PEER</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multipleExisting.html">3.4.4. Multiple Existing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3.4.5. Site Response Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#soil-column-graphic">3.4.5.1. Soil Column Graphic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fe-mesh-graphic">3.4.5.2. FE Mesh Graphic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operations-area">3.4.5.3. Operations Area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#soil-layer-table">3.4.5.4. Soil Layer Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tabbed-area">3.4.5.5. Tabbed Area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analyze-button">3.4.5.6. Analyze Button</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#view-results">3.4.5.7. View Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure">3.4.5.8. Configure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../FEM.html">3.5. FEM: Finite Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RV.html">3.6. RV: Random Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting/desktop/troubleshooting.html">4. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/desktop/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">6. Bugs &amp; Feature Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">7. Copyright and License</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Testbeds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../testbeds/sf_bay_area/index.html">1. San Francisco, CA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../testbeds/atlantic_city/index.html">2. Atlantic City, NJ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../testbeds/anchorage/index.html">3. Anchorage, AK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../testbeds/memphis/index.html">4. Memphis, TN</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_manual/desktop/technical_manual.html">1. Technical Manual</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_manual/how_to_build/desktop/how_to_build.html">1. How to Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_manual/architecture/desktop/architecture.html">2. Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_manual/how_to_extend/desktop/how_to_extend.html">3. How to Extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_manual/verification/desktop/verification.html">4. Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_manual/coding_style/desktop/coding_style.html">5. Coding Style</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Regional D* T* Application</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../usage.html">3. User Guide</a> &raquo;</li>
+        
+          <li><a href="earthquakeEvents.html">3.4. EVT: Earthquake Events</a> &raquo;</li>
+        
+      <li>3.4.5. Site Response Analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../../../_sources/common/user_manual/usage/desktop/earthquake/usageS3hark.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="site-response-analysis">
+<span id="lbl-usages3hark"></span><h1>3.4.5. Site Response Analysis<a class="headerlink" href="#site-response-analysis" title="Permalink to this headline">¶</a></h1>
+<p>s3hark allows users to determine the event at the base of the building by performing an effective free-field site response analysis of a soil column.
+In this panel the user specifies a ground motion at the bottom of the soil column.
+After the soil layers have been properly defined, the motion at the ground surface are given at the end of the analysis
+and that motion can be used in the simulation of the building response.</p>
+<p>The full user graphic interface looks like what is shown in <a class="reference internal" href="#ui"><span class="std std-numref">Fig. 3.4.6</span></a></p>
+<div class="align-center figure" id="id2">
+<span id="ui"></span><img alt="../../../../../_images/editing.png" src="../../../../../_images/editing.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.6 </span><span class="caption-text">Full Graphic Interface</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Clicking the arrow between the <a class="reference internal" href="#profilecolumn"><span class="std std-ref">Soil Column Graphic</span></a> and the <a class="reference internal" href="#mesh"><span class="std std-ref">FE Mesh Graphic</span></a> will hide the FE Mesh Graphic,
+which makes the UI look like what is shown in <a class="reference internal" href="#ui2"><span class="std std-numref">Fig. 3.4.7</span></a>.</p>
+<div class="align-center figure" id="id3">
+<span id="ui2"></span><img alt="../../../../../_images/editing2.png" src="../../../../../_images/editing2.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.7 </span><span class="caption-text">Collapse Graphic Interface</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>The UI of s3hark consists of the following components:</p>
+<div class="section" id="soil-column-graphic">
+<span id="profilecolumn"></span><h2>3.4.5.1. Soil Column Graphic<a class="headerlink" href="#soil-column-graphic" title="Permalink to this headline">¶</a></h2>
+<p>The first graphic on the left of the panel shows a visualization of the soil column created.
+Each layer has a different randomly generated color.
+When the user add or delete a soil layer, this graphic will refresh.</p>
+</div>
+<div class="section" id="fe-mesh-graphic">
+<span id="mesh"></span><h2>3.4.5.2. FE Mesh Graphic<a class="headerlink" href="#fe-mesh-graphic" title="Permalink to this headline">¶</a></h2>
+<p>The second graphic on the left shows the finite element mesh and profile plots.
+Upon the finish of the analysis, selecting any of the tabs on the right inside this graphic (i.e., PGA, <span class="math notranslate nohighlight">\(\gamma max\)</span>, maxDisp, maxRu, maxRuPWP)
+will show various results from the simulation at the mesh points.</p>
+</div>
+<div class="section" id="operations-area">
+<h2>3.4.5.3. Operations Area<a class="headerlink" href="#operations-area" title="Permalink to this headline">¶</a></h2>
+<p>The right side of this area shows some information of the created soil column, such as the total height and number of soil layers.
+The user also finds the Ground Water Table (GWT) input field, plus and minus buttons in this area.
+If the user pressed the plus button, a layer will be added below a currently selected layer.
+If the minus button is pressed the currently selected layer will be removed.
+The GWT input field allows the user to specify the level of the ground water table.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Variables are assumed to have m, kPa, and kN units in s3hark.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="soil-layer-table">
+<h2>3.4.5.4. Soil Layer Table<a class="headerlink" href="#soil-layer-table" title="Permalink to this headline">¶</a></h2>
+<p>This table is where the user provides the characteristics of soil layers, such as layer thickness, density, Vs30, material type, and element size in the finite element mesh.</p>
+<p>Single click at a cell will make a soil layer selected, which will highlight the layer using green color in the table.</p>
+<p>Also the layer will be highlighted by red box in the <a class="reference internal" href="#profilecolumn"><span class="std std-ref">Soil Column Graphic</span></a>.</p>
+<p>Meanwhile the <a class="reference internal" href="#layerpropertiestab"><span class="std std-ref">Layer Properties Tab</span></a> will be activated.</p>
+<p>Double click a cell to edit it in the table.</p>
+<p>If you change the <code class="docutils literal notranslate"><span class="pre">Material</span></code> cell of a layer, the <a class="reference internal" href="#layerpropertiestab"><span class="std std-ref">Layer Properties Tab</span></a> will change correspondingly.</p>
+</div>
+<div class="section" id="tabbed-area">
+<h2>3.4.5.5. Tabbed Area<a class="headerlink" href="#tabbed-area" title="Permalink to this headline">¶</a></h2>
+<p>This area contains the three tabbed widgets described below.</p>
+<p>Configure Tab
+“““““““““““““““““““
+This tab allows the user to specify the paths to the OpenSees executable and a ground motion file that represent the ground shaking at the
+bedrock. The rock motion file must follow the SimCenter event format.
+Examples of SimCenter event files are available in the <a class="reference download external" download="" href="https://nheri-simcenter.github.io/s3hark-Documentation/_downloads/4aad74c55afc9d112aa4bb1963afa7f7/DemoGM.zip"><code class="xref download docutils literal notranslate"><span class="pre">motion</span> <span class="pre">demos</span></code></a>.
+s3hark will determine to use 2D column or 3D column based on the ground motion file provided.
+When a ground motion file is selected from the local computer, or the path of the ground motion file is typed in,
+s3hark will figure out if it’s a 1D or 2D shaking file. If it’s 1D shaking, all elements will be 2D. If it’s 2D shaking,
+all elements will be 3D.
+The definition of 2D and 3D slope are different. See <a class="reference internal" href="#slope-2d"><span class="std std-numref">Fig. 3.4.13</span></a> and <a class="reference internal" href="#slope-3d"><span class="std std-numref">Fig. 3.4.15</span></a>.</p>
+<p>More details about this tab can be found in <a class="reference internal" href="#configure"><span class="std std-ref">Configure</span></a>.</p>
+<p id="layerpropertiestab">Layer Properties Tab
+““““““““““““““““““““““
+This tab allows the user to enter additional material properties for the selected soil layer <a class="reference internal" href="#layerediting"><span class="std std-numref">Fig. 3.4.8</span></a>.</p>
+<div class="align-center figure" id="id4">
+<span id="layerediting"></span><img alt="../../../../../_images/editing.png" src="../../../../../_images/editing.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.8 </span><span class="caption-text">Layer properties</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p id="responsetab">Response Tab
+“““““““““““““
+Once the site response analysis has been performed, this tab provides information about element and nodal time varying response quantities. See <a class="reference internal" href="#response"><span class="std std-numref">Fig. 3.4.9</span></a>.</p>
+<div class="align-center figure" id="id5">
+<span id="response"></span><img alt="../../../../../_images/response.png" src="../../../../../_images/response.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.9 </span><span class="caption-text">Response</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="analyze-button">
+<h2>3.4.5.6. Analyze Button<a class="headerlink" href="#analyze-button" title="Permalink to this headline">¶</a></h2>
+<p>This <strong>Analyze</strong> button is located at the top-right corner of the UI and shall be used to run the simulation locally on your computer.
+A progress bar will show up at the bottom of the application indicating the status of the analysis.
+Upon the finish of the simulation, a message will be displayed (<a class="reference internal" href="#done"><span class="std std-numref">Fig. 3.4.10</span></a>).</p>
+<div class="align-center figure" id="id6">
+<span id="done"></span><img alt="../../../../../_images/analysis.png" src="../../../../../_images/analysis.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.10 </span><span class="caption-text">Analysis is done</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="view-results">
+<h2>3.4.5.7. View Results<a class="headerlink" href="#view-results" title="Permalink to this headline">¶</a></h2>
+<p>Click the button to dismiss the message window, the response tab will be activated.</p>
+<p>The user can click on any element in the mesh graphic, the selected element will be highlighted in red and the selected nodes will be pointed out by blue arrows.</p>
+<p>The time history of selected element / node will be shown in the <a class="reference internal" href="#responsetab"><span class="std std-ref">Response Tab</span></a>.</p>
+<p>This allows the user to review the ground motion predicted at selected nodes <a class="reference internal" href="#responsenode"><span class="std std-numref">Fig. 3.4.11</span></a>.</p>
+<div class="align-center figure" id="id7">
+<span id="responsenode"></span><img alt="../../../../../_images/noderesponse.png" src="../../../../../_images/noderesponse.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.11 </span><span class="caption-text">Response at a selected node</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>If the Analyze button is not pressed, no simulation will be performed,
+therefore no simulation is performed and there will be no ground motions provided to the building, if your are using s3hark inside other SimCenter applications.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="configure">
+<span id="id1"></span><h2>3.4.5.8. Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h2>
+<div class="align-center figure" id="id8">
+<span id="configure-1d"></span><img alt="../../../../../_images/configure-1d.png" src="../../../../../_images/configure-1d.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.12 </span><span class="caption-text">Configuration with a 1D shaking motion</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<p>In the configure tab, two paths need to be specified.</p>
+<p>You can either type them or click the ‘+’ button to select them from your computer.</p>
+<p>If you don’t have OpenSees installed, the instruction can be found <span class="xref std std-ref">here</span>.
+If you don’t have a ground motion file, demos can be downloaded <a class="reference download external" download="" href="https://nheri-simcenter.github.io/s3hark-Documentation/_downloads/4aad74c55afc9d112aa4bb1963afa7f7/DemoGM.zip"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Variables are assumed to have m, kPa, and kN units in s3hark.</p></li>
+</ul>
+</div>
+<p>The first demo is SRT-GM-Input-Style3.json, which contains the shaking motion in one direction (1D shaking).
+If you select this files as the input motion, your tab will look like the one shown in <a class="reference internal" href="#configure-1d"><span class="std std-numref">Fig. 3.4.12</span></a>.
+You can edit the slope degree <span class="math notranslate nohighlight">\(\alpha\)</span>. For flat ground the value should be set as 0.
+If 1D shaking motion provided, s3hark automatically treat the problem as a 2D plane strain problem.
+2D elements will be used. The slope diagram is plotted in <a class="reference internal" href="#slope-2d"><span class="std std-numref">Fig. 3.4.13</span></a>.</p>
+<div class="align-center figure" id="id9">
+<span id="slope-2d"></span><img alt="../../../../../_images/slope2d.png" src="../../../../../_images/slope2d.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.13 </span><span class="caption-text">Slope definition for 2D Column</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<p>The second demo is SRT-GM-Input-Style3-2D.json, which contains the shaking motion in two directions (2D shaking).
+If you select this file as the input motion, your tab will look like the one shown in <a class="reference internal" href="#configure-2d"><span class="std std-numref">Fig. 3.4.14</span></a>.</p>
+<div class="align-center figure" id="id10">
+<span id="configure-2d"></span><img alt="../../../../../_images/configure-2d.png" src="../../../../../_images/configure-2d.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.14 </span><span class="caption-text">Configuration with a bi-directional shaking motion</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+<p>You can see s3hark detected the file you provided is a 2D shaking,
+s3hark automatically treat the problem as a 3D problem.
+3D elements will be used. The slope diagram is plotted in <a class="reference internal" href="#slope-3d"><span class="std std-numref">Fig. 3.4.15</span></a>:</p>
+<div class="align-center figure" id="id11">
+<span id="slope-3d"></span><img alt="../../../../../_images/slope3d.png" src="../../../../../_images/slope3d.png" />
+<p class="caption"><span class="caption-number">Fig. 3.4.15 </span><span class="caption-text">Slope definition for 3D Column</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+<p>For flat ground <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> should be set as 0.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Regents of the University of California
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '...', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>

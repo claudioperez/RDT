@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.5. FEM: Finite Element Method &mdash; Regional D* T* Application  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="3.6. RV: Random Variables" href="RV.html" />
+    <link rel="prev" title="3.4.5. Site Response Analysis" href="earthquake/usageS3hark.html" />
+<script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+<style media="screen">.vega-actions a {margin-right: 5px;}</style>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F2F2F2" >
+          
+
+          
+            <a href="../../../../index.html">
+          
+
+          
+            
+            <img src="../../../../_static/RDT-Logo-grey2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../ack.html">1. Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/desktop/installation.html">2. Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="usage.html">3. User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="UQ.html">3.1. UQ: Uncertainty Quantification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GI.html">3.2. GI: General Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SIM.html">3.3. SIM: Structural Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="earthquake/earthquakeEvents.html">3.4. EVT: Earthquake Events</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.5. FEM: Finite Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RV.html">3.6. RV: Random Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/desktop/troubleshooting.html">4. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/desktop/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">6. Bugs &amp; Feature Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">7. Copyright and License</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Testbeds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/sf_bay_area/index.html">1. San Francisco, CA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/atlantic_city/index.html">2. Atlantic City, NJ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/anchorage/index.html">3. Anchorage, AK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testbeds/memphis/index.html">4. Memphis, TN</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_manual/desktop/technical_manual.html">1. Technical Manual</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/how_to_build/desktop/how_to_build.html">1. How to Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/architecture/desktop/architecture.html">2. Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/how_to_extend/desktop/how_to_extend.html">3. How to Extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/verification/desktop/verification.html">4. Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_manual/coding_style/desktop/coding_style.html">5. Coding Style</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Regional D* T* Application</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="usage.html">3. User Guide</a> &raquo;</li>
+        
+      <li>3.5. FEM: Finite Element Method</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../../_sources/common/user_manual/usage/desktop/FEM.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fem-finite-element-method">
+<span id="lblfem"></span><h1>3.5. FEM: Finite Element Method<a class="headerlink" href="#fem-finite-element-method" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>FEM</strong> tab will present users with a selection of FEM
+applications that will take a building model generated by the BIM
+application and the EVENT from the event application and perform a
+deterministic simulation of structural response. The default application is the OpenSees application.</p>
+<p>Currently, there is one application OpenSees. The current OpenSees implementation extends the standard OpenSees executable with a pre- and post-processor to take the BIM and EVENT
+files and use OpenSees to simulate the response, and return it in an EDP file.</p>
+<div class="align-center figure" id="id1">
+<span id="figfem"></span><img alt="../../../../_images/OpenSeesFEM.png" src="../../../../_images/OpenSeesFEM.png" />
+<p class="caption"><span class="caption-number">Fig. 3.5.1 </span><span class="caption-text">Options for OpenSees.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>For the <strong>OpenSees</strong> application the user is required to specify the
+options to be used in the transient analysis. As shown in <a class="reference internal" href="#figfem"><span class="std std-numref">Fig. 3.5.1</span></a>,
+this includes the choice of:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p><a class="reference external" href="http://opensees.berkeley.edu/wiki/index.php/Algorithm_Command">Solution Algorithm</a>: The solution algorithm is the numerical algorithm used to solve the nonlinear equations at each time step/. The default is Newton Raphson, other options include ModifiedNewton, Newton -initial, BFGS, Linear.</p></li>
+<li><p><a class="reference external" href="http://opensees.berkeley.edu/wiki/index.php/System_Command">System</a>: The system defines how the matrix equation <span class="math notranslate nohighlight">\(Ax = b\)</span> is stored in memory and solved. The default is the unsymmetric sparse solver Umfpack. Other options available include: profileSPD, BandSPD, BandGEM, Diagonal, SuperLU.</p></li>
+<li><p><a class="reference external" href="http://opensees.berkeley.edu/wiki/index.php/Integrator_Command">Integration Scheme</a>: The integration scheme specifies the time stepping algorithm being employed to solve the transient problem (<span class="math notranslate nohighlight">\(M \ddot{U}(t) + C \dot{U}(t)  + Fs(U(t)) = P(t)\)</span>). The integration scheme determined the coefficients in the <span class="math notranslate nohighlight">\(A\)</span> matrix,  the meaning of the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(b\)</span> vectors and how the nodal displacements, velocities, and accelerations should be updated given <span class="math notranslate nohighlight">\(x\)</span>. The default is Newmark’s linear acceleration method (Newmark 0.5 0.25). Other Newmark methods can be employed by changing the <span class="math notranslate nohighlight">\(\alpha\)</span> and  <span class="math notranslate nohighlight">\(\beta\)</span> terms, and other methods, HHT, CentralDifference, can be selected.</p></li>
+<li><p><a class="reference external" href="http://opensees.berkeley.edu/wiki/index.php/Test_Command">Convergence Test</a>, the default is a norm on the unbalance force with a convergence tolerance of 1.0e-2 and a limit of 10 trial steps to achieve convergence. Other convergence criteria that can be chosen incude: NormDispIncr, EnergyIncrement, and the relative norms.</p></li>
+<li><p>Damping Model: The pull down menu defaults to <strong>Rayleigh Damping</strong>. The other option is <strong>Modal Damping</strong>. The theory behind the two are presented in <a class="reference internal" href="../../../technical_manual/desktop/damping.html#lbldamping"><span class="std std-ref">Damping Options</span></a>.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Rayleigh Damping. With Rayleigh damping the user mist provide the damping ratio, <span class="math notranslate nohighlight">\(\zeta\)</span> and specify two modes from which the damping coefficients <span class="math notranslate nohighlight">\(a_0\)</span> and <span class="math notranslate nohighlight">\(a_1\)</span> will be determined. Mass proportional damping can be obtained by setting the <strong>Mode 2</strong> option to 0, <strong>stiffness proportional damping</strong> by setting <strong>Mode 1</strong> option to 0.</p></li>
+<li><p>Modal Damping: With modal damping the user specifies the number of modes and the damping ratio <span class="math notranslate nohighlight">\(\zeta\)</span>. In addition the user has the option of specifying a <strong>stiffness proportional damping ratio</strong>, which as mentioned in the <a class="reference internal" href="../../../technical_manual/desktop/damping.html#lbldamping"><span class="std std-ref">Damping Options</span></a> is used to provide additional damping for the higher modes.</p></li>
+</ol>
+<div class="align-center figure" id="id2">
+<img alt="../../../../_images/OpenSeesFEM-Modal.png" src="../../../../_images/OpenSeesFEM-Modal.png" />
+<p class="caption"><span class="caption-number">Fig. 3.5.2 </span><span class="caption-text">Modal Damping Options for OpenSees</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div></blockquote>
+</li>
+<li><p>Analysis Script. This shall be left blank by default. Advanced users of OpenSees who have their preferred analysis script and wish to provide their own damping model can provide it here. If this option is provided, the user in their script should use the variables <strong>numStep</strong> and <strong>dt</strong>.</p></li>
+</ol>
+</div></blockquote>
+<p>A default transient analysis script is run with these inputs. It is
+built for Version 3.0.0+ of OpenSees and uses a divide and conquer
+algorithm to overcome convergence issues. This new algorithm
+does not work for every nonlinear problem. The actual analysis command
+that is created based on the defaults is the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>numberer RCM
+system Umfpack
+integrator Newmark 0.5 0.25
+test NormUnbalance 0.01 20
+algorithm Newton
+analysis Transient -numSubLevels 2 -numSubSteps 10
+analyze $numStep $dt
+</pre></div>
+</div>
+<p>If the user specifies their own analysis script to run
+instead of the default, they can take advantage of the <strong>numStep</strong> and <strong>dt</strong> variables that
+are obtained from the EVENT and are automatically set by the program.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Regents of the University of California
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '...', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+    
+
+  <style>
+         .wy-nav-content { max-width: none; }
+  </style>
+
+
+
+</body>
+</html>
