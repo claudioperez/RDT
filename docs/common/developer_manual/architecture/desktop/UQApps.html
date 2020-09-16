@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>2.2.8. UQ Applications &mdash; Regional D* T* Application  documentation</title>
+  <title>2.2.8. UQ Applications &mdash; Regional Resilience Determination Tool  documentation</title>
   
 
   
@@ -26,6 +26,9 @@
         <script type="text/javascript" src="../../../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../../../_static/language_data.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -35,6 +38,7 @@
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="3. How to Extend" href="../../how_to_extend/desktop/how_to_extend.html" />
@@ -149,7 +153,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">Regional D* T* Application</a>
+          <a href="../../../../index.html">Regional Resilience Determination Tool</a>
         
       </nav>
 
@@ -180,9 +184,9 @@
     
       <li><a href="../../../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="architecture.html">2. Software Architecture</a> &raquo;</li>
+          <li><a href="architecture.html"><span class="section-number">2. </span>Software Architecture</a> &raquo;</li>
         
-      <li>2.2.8. UQ Applications</li>
+      <li><span class="section-number">2.2.8. </span>UQ Applications</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -202,7 +206,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="uq-applications">
-<span id="lbluqapp"></span><h1>2.2.8. UQ Applications<a class="headerlink" href="#uq-applications" title="Permalink to this headline">¶</a></h1>
+<span id="lbluqapp"></span><h1><span class="section-number">2.2.8. </span>UQ Applications<a class="headerlink" href="#uq-applications" title="Permalink to this headline">¶</a></h1>
 <p>The <strong>UQ application</strong> runs the commands written in the driver file which call on each of workflow steps (Event, Modeling, EDP, Simulation) to execute the RDT Workflow.
 If set up to sample random variables (RV) for uncertainty quantification in any of the workflow steps, then the UQ application first populates values for the random variables, sampled from specified probability distributions, in the corresponding files (EVENT.json, SAM.json, EDP.json, SIM.json) for each simulation before executing the workflow.</p>
 <p>The following options for UQ applications vary in the software package used to perform uncertainty quantification.</p>
