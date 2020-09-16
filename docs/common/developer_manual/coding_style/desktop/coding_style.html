@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5. Coding Style &mdash; Regional D* T* Application  documentation</title>
+  <title>5. Coding Style &mdash; Regional Resilience Determination Tool  documentation</title>
   
 
   
@@ -26,6 +26,9 @@
         <script type="text/javascript" src="../../../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../../../_static/language_data.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -35,6 +38,7 @@
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="prev" title="4. Verification" href="../../verification/desktop/verification.html" />
@@ -141,7 +145,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">Regional D* T* Application</a>
+          <a href="../../../../index.html">Regional Resilience Determination Tool</a>
         
       </nav>
 
@@ -172,7 +176,7 @@
     
       <li><a href="../../../../index.html">Docs</a> &raquo;</li>
         
-      <li>5. Coding Style</li>
+      <li><span class="section-number">5. </span>Coding Style</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -192,27 +196,27 @@
            <div itemprop="articleBody">
             
   <div class="section" id="coding-style">
-<span id="lblcodingstyle"></span><h1>5. Coding Style<a class="headerlink" href="#coding-style" title="Permalink to this headline">¶</a></h1>
+<span id="lblcodingstyle"></span><h1><span class="section-number">5. </span>Coding Style<a class="headerlink" href="#coding-style" title="Permalink to this headline">¶</a></h1>
 <p>The SimCenter frontend applications are written in <strong>C++</strong>. The applications that run in the backend are written in a mixture of languages: <strong>Python</strong>, <strong>C</strong>, and <strong>C++</strong>. The SimCenter strives to use a common style across the applications. This section outlines that style. Consistency is the most important aspect of style. The second most important aspect is following a style that the average programmer is used to reading. Not all code will follow th guide,</p>
 <div class="section" id="python-style">
-<h2>5.1. Python Style<a class="headerlink" href="#python-style" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.1. </span>Python Style<a class="headerlink" href="#python-style" title="Permalink to this headline">¶</a></h2>
 <p>For code written in Python SimCenter programmers follow the widely used
 <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">Guide PEP 8</a></p>
 </div>
 <div class="section" id="c-c-style">
-<h2>5.2. C/C++ Style<a class="headerlink" href="#c-c-style" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.2. </span>C/C++ Style<a class="headerlink" href="#c-c-style" title="Permalink to this headline">¶</a></h2>
 <p>Unlike Python, C/C++ do not have a widely accepted style guideline. Some guidelines of note include the <a class="reference external" href="https://google.github.io/styleguide/cppguide.html">Google Style</a>, the <a class="reference external" href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines.html">C++ Core Guidelines</a> (edited by Stroustrup and Sutter), and an older
 C++</p>
 <div class="section" id="comments">
-<h3>5.2.1. Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.1. </span>Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h3>
 <p>It goes without saying that you must use them. Try to use <code class="code docutils literal notranslate"><span class="pre">//</span></code> as opposed to <code class="code docutils literal notranslate"><span class="pre">/*</span> <span class="pre">*/</span></code>, as it makes it easier to comment out a block of code when debugging.</p>
 </div>
 <div class="section" id="naming-conventions">
-<h3>5.2.2. Naming Conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.2. </span>Naming Conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this headline">¶</a></h3>
 <p>All names should be meaningful and Follow a camel case approach. For classes the names start with an uppercase letter, all class methods, functions, and variables shall start with a lowercase letter. The exception is constant variables, which should be all uppercase, e.g. <code class="code docutils literal notranslate"><span class="pre">const</span> <span class="pre">double</span> <span class="pre">PI=3.14159265358979323;</span></code></p>
 </div>
 <div class="section" id="files">
-<h3>5.2.3. Files<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.3. </span>Files<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p>Use a <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> extension for code files and a <code class="docutils literal notranslate"><span class="pre">.h</span></code> extension for interface files.</p></li>
 <li><p>All files should include at the start the <a class="reference internal" href="../../../user_manual/license.html#lbllicense"><span class="std std-ref">Copyright and License</span></a></p></li>
@@ -340,7 +344,7 @@ C++</p>
 </div>
 </div>
 <div class="section" id="variables">
-<h3>5.2.4. Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.4. </span>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p>Initialize all variables</p></li>
 <li><p>When initializing float and double variables with values that could be read as integer always include a <code class="docutils literal notranslate"><span class="pre">.0</span></code>, e.g. <code class="code docutils literal notranslate"><span class="pre">double</span> <span class="pre">a</span> <span class="pre">=</span> <span class="pre">1.0;</span></code></p></li>
