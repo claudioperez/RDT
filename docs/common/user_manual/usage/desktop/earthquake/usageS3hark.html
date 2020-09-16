@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3.4.5. Site Response Analysis &mdash; Regional D* T* Application  documentation</title>
+  <title>3.4.5. Site Response Analysis &mdash; Regional Resilience Determination Tool  documentation</title>
   
 
   
@@ -26,6 +26,9 @@
         <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="../../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script type="text/javascript" src="../../../../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
     
     <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
 
@@ -35,6 +38,7 @@
   <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
     <link rel="next" title="3.5. FEM: Finite Element Method" href="../FEM.html" />
@@ -157,7 +161,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../../index.html">Regional D* T* Application</a>
+          <a href="../../../../../index.html">Regional Resilience Determination Tool</a>
         
       </nav>
 
@@ -188,11 +192,11 @@
     
       <li><a href="../../../../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../usage.html">3. User Guide</a> &raquo;</li>
+          <li><a href="../usage.html"><span class="section-number">3. </span>User Guide</a> &raquo;</li>
         
-          <li><a href="earthquakeEvents.html">3.4. EVT: Earthquake Events</a> &raquo;</li>
+          <li><a href="earthquakeEvents.html"><span class="section-number">3.4. </span>EVT: Earthquake Events</a> &raquo;</li>
         
-      <li>3.4.5. Site Response Analysis</li>
+      <li><span class="section-number">3.4.5. </span>Site Response Analysis</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -212,7 +216,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="site-response-analysis">
-<span id="lbl-usages3hark"></span><h1>3.4.5. Site Response Analysis<a class="headerlink" href="#site-response-analysis" title="Permalink to this headline">¶</a></h1>
+<span id="lbl-usages3hark"></span><h1><span class="section-number">3.4.5. </span>Site Response Analysis<a class="headerlink" href="#site-response-analysis" title="Permalink to this headline">¶</a></h1>
 <p>s3hark allows users to determine the event at the base of the building by performing an effective free-field site response analysis of a soil column.
 In this panel the user specifies a ground motion at the bottom of the soil column.
 After the soil layers have been properly defined, the motion at the ground surface are given at the end of the analysis
@@ -230,19 +234,19 @@ which makes the UI look like what is shown in <a class="reference internal" href
 </div>
 <p>The UI of s3hark consists of the following components:</p>
 <div class="section" id="soil-column-graphic">
-<span id="profilecolumn"></span><h2>3.4.5.1. Soil Column Graphic<a class="headerlink" href="#soil-column-graphic" title="Permalink to this headline">¶</a></h2>
+<span id="profilecolumn"></span><h2><span class="section-number">3.4.5.1. </span>Soil Column Graphic<a class="headerlink" href="#soil-column-graphic" title="Permalink to this headline">¶</a></h2>
 <p>The first graphic on the left of the panel shows a visualization of the soil column created.
 Each layer has a different randomly generated color.
 When the user add or delete a soil layer, this graphic will refresh.</p>
 </div>
 <div class="section" id="fe-mesh-graphic">
-<span id="mesh"></span><h2>3.4.5.2. FE Mesh Graphic<a class="headerlink" href="#fe-mesh-graphic" title="Permalink to this headline">¶</a></h2>
+<span id="mesh"></span><h2><span class="section-number">3.4.5.2. </span>FE Mesh Graphic<a class="headerlink" href="#fe-mesh-graphic" title="Permalink to this headline">¶</a></h2>
 <p>The second graphic on the left shows the finite element mesh and profile plots.
 Upon the finish of the analysis, selecting any of the tabs on the right inside this graphic (i.e., PGA, <span class="math notranslate nohighlight">\(\gamma max\)</span>, maxDisp, maxRu, maxRuPWP)
 will show various results from the simulation at the mesh points.</p>
 </div>
 <div class="section" id="operations-area">
-<h2>3.4.5.3. Operations Area<a class="headerlink" href="#operations-area" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4.5.3. </span>Operations Area<a class="headerlink" href="#operations-area" title="Permalink to this headline">¶</a></h2>
 <p>The right side of this area shows some information of the created soil column, such as the total height and number of soil layers.
 The user also finds the Ground Water Table (GWT) input field, plus and minus buttons in this area.
 If the user pressed the plus button, a layer will be added below a currently selected layer.
@@ -256,7 +260,7 @@ The GWT input field allows the user to specify the level of the ground water tab
 </div>
 </div>
 <div class="section" id="soil-layer-table">
-<h2>3.4.5.4. Soil Layer Table<a class="headerlink" href="#soil-layer-table" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4.5.4. </span>Soil Layer Table<a class="headerlink" href="#soil-layer-table" title="Permalink to this headline">¶</a></h2>
 <p>This table is where the user provides the characteristics of soil layers, such as layer thickness, density, Vs30, material type, and element size in the finite element mesh.</p>
 <p>Single click at a cell will make a soil layer selected, which will highlight the layer using green color in the table.</p>
 <p>Also the layer will be highlighted by red box in the <a class="reference internal" href="#profilecolumn"><span class="std std-ref">Soil Column Graphic</span></a>.</p>
@@ -265,7 +269,7 @@ The GWT input field allows the user to specify the level of the ground water tab
 <p>If you change the <code class="docutils literal notranslate"><span class="pre">Material</span></code> cell of a layer, the <a class="reference internal" href="#layerpropertiestab"><span class="std std-ref">Layer Properties Tab</span></a> will change correspondingly.</p>
 </div>
 <div class="section" id="tabbed-area">
-<h2>3.4.5.5. Tabbed Area<a class="headerlink" href="#tabbed-area" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4.5.5. </span>Tabbed Area<a class="headerlink" href="#tabbed-area" title="Permalink to this headline">¶</a></h2>
 <p>This area contains the three tabbed widgets described below.</p>
 <p>Configure Tab
 “““““““““““““““““““
@@ -294,7 +298,7 @@ Once the site response analysis has been performed, this tab provides informatio
 </div>
 </div>
 <div class="section" id="analyze-button">
-<h2>3.4.5.6. Analyze Button<a class="headerlink" href="#analyze-button" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4.5.6. </span>Analyze Button<a class="headerlink" href="#analyze-button" title="Permalink to this headline">¶</a></h2>
 <p>This <strong>Analyze</strong> button is located at the top-right corner of the UI and shall be used to run the simulation locally on your computer.
 A progress bar will show up at the bottom of the application indicating the status of the analysis.
 Upon the finish of the simulation, a message will be displayed (<a class="reference internal" href="#done"><span class="std std-numref">Fig. 3.4.10</span></a>).</p>
@@ -304,7 +308,7 @@ Upon the finish of the simulation, a message will be displayed (<a class="refere
 </div>
 </div>
 <div class="section" id="view-results">
-<h2>3.4.5.7. View Results<a class="headerlink" href="#view-results" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4.5.7. </span>View Results<a class="headerlink" href="#view-results" title="Permalink to this headline">¶</a></h2>
 <p>Click the button to dismiss the message window, the response tab will be activated.</p>
 <p>The user can click on any element in the mesh graphic, the selected element will be highlighted in red and the selected nodes will be pointed out by blue arrows.</p>
 <p>The time history of selected element / node will be shown in the <a class="reference internal" href="#responsetab"><span class="std std-ref">Response Tab</span></a>.</p>
@@ -322,7 +326,7 @@ therefore no simulation is performed and there will be no ground motions provide
 </div>
 </div>
 <div class="section" id="configure">
-<span id="id1"></span><h2>3.4.5.8. Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2><span class="section-number">3.4.5.8. </span>Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h2>
 <div class="align-center figure" id="id8">
 <span id="configure-1d"></span><img alt="../../../../../_images/configure-1d.png" src="../../../../../_images/configure-1d.png" />
 <p class="caption"><span class="caption-number">Fig. 3.4.12 </span><span class="caption-text">Configuration with a 1D shaking motion</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
